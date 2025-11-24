@@ -2,9 +2,6 @@ import type { Metadata } from 'next';
 import Header from '@/components/common/Header';
 import HeroSection from './components/HeroSection';
 import ServicesPreview from './components/ServicesPreview';
-import PortfolioShowcase from './components/PortfolioShowcase';
-import TestimonialsSection from './components/TestimonialsSection';
-import StatsSection from './components/StatsSection';
 import CTASection from './components/CTASection';
 import Footer from './components/Footer';
 
@@ -20,9 +17,6 @@ export default function Homepage() {
       <main>
         <HeroSection />
         <ServicesPreview />
-        <StatsSection />
-        <PortfolioShowcase />
-        <TestimonialsSection />
         <CTASection />
       </main>
       <Footer />

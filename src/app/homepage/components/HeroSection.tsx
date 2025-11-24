@@ -23,7 +23,7 @@ const HeroSection = ({ className = '' }: HeroSectionProps) => {
     title: 'Bangun UMKM Palembang!',
     subtitle: 'Transformasi Visual untuk Bisnis Anda',
     description: 'Wujudkan identitas brand yang kuat dan profesional bersama Brandify Palembang',
-    image: "https://images.unsplash.com/photo-1623679799651-ad774745c6fa",
+    image: "/hero-home/home1.jpg",
     alt: 'Professional designer working on laptop with colorful design mockups on desk in modern office',
     cta: 'Mulai Transformasi',
     ctaLink: '/order-form'
@@ -33,21 +33,12 @@ const HeroSection = ({ className = '' }: HeroSectionProps) => {
     title: 'Desain Profesional untuk UMKM',
     subtitle: 'Tingkatkan Brand Anda',
     description: 'Solusi desain grafis lengkap dari logo hingga kemasan produk',
-    image: "https://images.unsplash.com/photo-1720411270946-7a530fd12dc9",
+    image: "/hero-home/home2.jpg",
     alt: 'Creative team brainstorming with colorful sticky notes on glass wall in bright modern workspace',
     cta: 'Lihat Layanan',
     ctaLink: '/services'
   },
-  {
-    id: 3,
-    title: 'Portfolio Inspiratif',
-    subtitle: 'Karya Nyata, Hasil Maksimal',
-    description: 'Lihat bagaimana kami membantu UMKM Palembang berkembang',
-    image: "https://images.unsplash.com/photo-1704652838446-edc4448d6261",
-    alt: 'Entrepreneur presenting business plan with charts and graphs on tablet in modern office setting',
-    cta: 'Jelajahi Portfolio',
-    ctaLink: '/portfolio-showcase'
-  }];
+  ];
 
 
   useEffect(() => {

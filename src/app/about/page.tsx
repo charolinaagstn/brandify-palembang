@@ -47,64 +47,6 @@ export default function AboutPage() {
     icon: 'RocketLaunchIcon'
   }];
 
-
-  const valuesData = [
-  {
-    title: 'Kualitas Tanpa Kompromi',
-    description: 'Setiap desain yang kami hasilkan memenuhi standar profesional tertinggi, memastikan klien mendapatkan nilai terbaik untuk investasi mereka.',
-    icon: 'StarIcon'
-  },
-  {
-    title: 'Pemahaman Lokal',
-    description: 'Kami memahami budaya, preferensi, dan dinamika pasar Palembang, menciptakan desain yang resonan dengan audiens lokal.',
-    icon: 'MapPinIcon'
-  },
-  {
-    title: 'Kolaborasi Transparan',
-    description: 'Kami melibatkan klien di setiap tahap proses desain, memastikan hasil akhir sesuai dengan visi dan ekspektasi mereka.',
-    icon: 'UserGroupIcon'
-  },
-  {
-    title: 'Inovasi Berkelanjutan',
-    description: 'Kami terus mengikuti tren desain terkini dan teknologi baru untuk memberikan solusi yang fresh dan relevan.',
-    icon: 'LightBulbIcon'
-  },
-  {
-    title: 'Komitmen pada UMKM',
-    description: 'Kami percaya pada kekuatan UMKM untuk menggerakkan ekonomi lokal dan berkomitmen untuk mendukung pertumbuhan mereka.',
-    icon: 'HeartIcon'
-  },
-  {
-    title: 'Hasil yang Terukur',
-    description: 'Kami fokus pada desain yang tidak hanya indah, tetapi juga memberikan dampak nyata pada pertumbuhan bisnis klien.',
-    icon: 'ChartBarIcon'
-  }];
-
-
-  const teamData = [
-  {
-    name: 'Andi Pratama',
-    role: 'Creative Director',
-    expertise: 'Spesialis branding dengan 8+ tahun pengalaman di industri kreatif. Ahli dalam menciptakan identitas visual yang memorable dan strategis.',
-    image: "https://img.rocket.new/generatedImages/rocket_gen_img_154d703dc-1763301115517.png",
-    alt: 'Pria Indonesia berusia 30-an dengan rambut hitam pendek mengenakan kemeja putih tersenyum percaya diri di studio desain'
-  },
-  {
-    name: 'Siti Nurhaliza',
-    role: 'Lead Designer',
-    expertise: 'Desainer grafis berpengalaman dengan keahlian khusus dalam desain logo dan packaging. Memahami estetika lokal dan tren global.',
-    image: "https://images.unsplash.com/photo-1608483112842-0b8e33ffc318",
-    alt: 'Wanita Indonesia berhijab dengan senyum ramah mengenakan blazer abu-abu di depan papan mood board desain'
-  },
-  {
-    name: 'Rudi Hartono',
-    role: 'Digital Marketing Specialist',
-    expertise: 'Ahli strategi digital dengan pemahaman mendalam tentang pasar UMKM Palembang. Menghubungkan desain dengan hasil bisnis yang terukur.',
-    image: "https://images.unsplash.com/photo-1698581218869-59d08ba501bc",
-    alt: 'Pria Indonesia dengan kacamata dan kemeja biru sedang menganalisis data marketing di laptop'
-  }];
-
-
   const timelineData = [
   {
     year: '2019',
@@ -144,49 +86,7 @@ export default function AboutPage() {
   }];
 
 
-  const recognitionData = [
-  {
-    type: 'award' as const,
-    title: 'Best Creative Partner 2021',
-    description: 'Penghargaan dari Asosiasi UMKM Palembang atas kontribusi luar biasa dalam mendukung pertumbuhan bisnis lokal.',
-    date: 'Desember 2021',
-    icon: 'TrophyIcon'
-  },
-  {
-    type: 'media' as const,
-    title: 'Liputan Palembang Post',
-    description: 'Artikel feature tentang dampak Brandify dalam transformasi visual UMKM Palembang di era digital.',
-    date: 'Maret 2022',
-    icon: 'NewspaperIcon'
-  },
-  {
-    type: 'community' as const,
-    title: 'Workshop Gratis UMKM',
-    description: 'Menyelenggarakan 12 workshop gratis tentang branding dan desain untuk 500+ pengusaha lokal.',
-    date: 'Sepanjang 2023',
-    icon: 'AcademicCapIcon'
-  },
-  {
-    type: 'award' as const,
-    title: 'Top 10 Creative Agency',
-    description: 'Masuk dalam daftar 10 agensi kreatif terbaik di Sumatera Selatan versi Indonesia Creative Awards.',
-    date: 'Juni 2023',
-    icon: 'StarIcon'
-  },
-  {
-    type: 'media' as const,
-    title: 'Podcast Entrepreneur Lokal',
-    description: 'Tampil sebagai narasumber di podcast populer membahas strategi branding untuk UMKM.',
-    date: 'September 2023',
-    icon: 'MicrophoneIcon'
-  },
-  {
-    type: 'community' as const,
-    title: 'Sponsor Startup Weekend',
-    description: 'Menjadi sponsor utama dan mentor desain di acara Startup Weekend Palembang 2024.',
-    date: 'Februari 2024',
-    icon: 'SparklesIcon'
-  }];
+
 
 
   const ctaData = {
@@ -241,10 +141,7 @@ export default function AboutPage() {
       <HeroSection {...heroData} />
       <StorySection story={storyData} />
       <VisionMissionSection items={visionMissionData} />
-      <ValuesSection values={valuesData} />
-      <TeamSection members={teamData} />
       <TimelineSection events={timelineData} />
-      <RecognitionSection recognitions={recognitionData} />
       <CTASection {...ctaData} />
       <Footer {...footerData} />
     </main>);

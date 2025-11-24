@@ -15,7 +15,7 @@ const Header = ({ className = '' }: HeaderProps) => {
     { label: 'Beranda', href: '/homepage' },
     { label: 'Tentang Kami', href: '/about' },
     { label: 'Layanan', href: '/services' },
-    { label: 'Portfolio', href: '/portfolio-showcase' },
+   
   ];
 
   const moreMenuItems = [
