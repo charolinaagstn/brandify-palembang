@@ -25,9 +25,11 @@ export default function AboutPage() {
   const storyData = {
     title: 'Cerita Kami',
     paragraphs: [
-    'Brandify Palembang lahir dari keyakinan sederhana: setiap UMKM di Palembang berhak memiliki identitas visual yang profesional dan menarik. Kami memahami bahwa di era digital ini, tampilan visual bukan lagi kemewahan, melainkan kebutuhan untuk bersaing.',
-    'Berawal dari studio kecil di jantung kota Palembang, kami telah berkembang menjadi mitra terpercaya bagi ratusan UMKM lokal. Setiap proyek yang kami tangani adalah kesempatan untuk membantu pengusaha lokal mewujudkan impian mereka.',
-    'Kami percaya bahwa desain yang baik bukan hanya tentang estetika, tetapi tentang membangun koneksi emosional dengan pelanggan. Dengan memahami pasar lokal Palembang dan tren global, kami menciptakan solusi visual yang relevan dan berdampak.'],
+    "Brandify Palembang hadir sebagai startup kreatif yang lahir dari keinginan sederhana: membantu UMKM di Palembang memiliki identitas visual yang profesional tanpa harus mengeluarkan biaya besar. Di tengah persaingan digital yang semakin ketat, kami percaya bahwa tampilan visual yang kuat adalah kunci untuk membuat bisnis kecil tampil lebih percaya diri dan mudah dikenal."
+
+"Sebagai startup yang baru berkembang, kami berangkat dari tim kecil dengan semangat besar. Meski masih baru, kami berfokus untuk memberikan layanan desain yang cepat, rapi, dan terjangkau agar UMKM bisa langsung merasakan dampaknya dalam bisnis mereka."
+
+"Kami percaya bahwa desain tidak hanya soal estetika, tetapi bagaimana visual mampu membangun kepercayaan dan menarik perhatian pelanggan. Dengan memahami kebutuhan UMKM lokal dan mengikuti tren desain terkini, kami hadir untuk menciptakan solusi visual yang sederhana, relevan, dan benar-benar membantu usaha kecil bertumbuh."],
 
     image: "https://images.unsplash.com/photo-1571573680328-f20cbb17e7ba",
     alt: 'Tim kreatif Brandify Palembang sedang berkolaborasi di ruang kerja modern dengan laptop dan sketsa desain di meja'
