@@ -21,7 +21,6 @@ interface FooterProps {
   contactInfo: {
     address: string;
     phone: string;
-    email: string;
   };
 }
 
@@ -91,14 +90,11 @@ export default function Footer({ sections, socialLinks, contactInfo }: FooterPro
               </li>
               <li className="flex items-center">
                 <Icon name="PhoneIcon" size={18} className="mr-2 flex-shrink-0" />
-                <a href={`tel:${contactInfo.phone}`} className="text-white/80 hover:text-white transition-colors text-sm">
+                <a
+                  href={`tel:${contactInfo.phone}`}
+                  className="text-white/80 hover:text-white transition-colors text-sm"
+                >
                   {contactInfo.phone}
-                </a>
-              </li>
-              <li className="flex items-center">
-                <Icon name="EnvelopeIcon" size={18} className="mr-2 flex-shrink-0" />
-                <a href={`mailto:${contactInfo.email}`} className="text-white/80 hover:text-white transition-colors text-sm">
-                  {contactInfo.email}
                 </a>
               </li>
             </ul>
@@ -112,10 +108,16 @@ export default function Footer({ sections, socialLinks, contactInfo }: FooterPro
               &copy; {currentYear} Brandify Palembang. Semua hak dilindungi.
             </p>
             <div className="flex space-x-6">
-              <Link href="/privacy" className="text-white/70 hover:text-white transition-colors text-sm">
+              <Link
+                href="/privacy"
+                className="text-white/70 hover:text-white transition-colors text-sm"
+              >
                 Kebijakan Privasi
               </Link>
-              <Link href="/terms" className="text-white/70 hover:text-white transition-colors text-sm">
+              <Link
+                href="/terms"
+                className="text-white/70 hover:text-white transition-colors text-sm"
+              >
                 Syarat & Ketentuan
               </Link>
             </div>
