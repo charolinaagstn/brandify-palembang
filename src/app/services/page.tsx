@@ -4,7 +4,8 @@ import ServicesInteractive from './components/ServicesInteractive';
 
 export const metadata: Metadata = {
   title: 'Layanan Desain - Brandify Palembang',
-  description: 'Jelajahi layanan desain profesional kami untuk UMKM Palembang. Dari branding, social media, hingga website - solusi visual lengkap untuk transformasi bisnis Anda.',
+  description:
+    'Jelajahi layanan desain profesional kami untuk UMKM Palembang. Dari branding, social media, hingga website - solusi visual lengkap untuk transformasi bisnis Anda.',
 };
 
 export default function ServicesPage() {
@@ -34,20 +35,42 @@ export default function ServicesPage() {
               <div>
                 <h4 className="font-bold mb-4">Layanan</h4>
                 <ul className="space-y-2 text-sm opacity-80">
-                  <li><a href="/services" className="hover:text-accent transition-colors">Branding</a></li>
-                  <li><a href="/services" className="hover:text-accent transition-colors">Social Media</a></li>
-                  <li><a href="/services" className="hover:text-accent transition-colors">Print Design</a></li>
-                  <li><a href="/services" className="hover:text-accent transition-colors">Web Design</a></li>
+                  <li>
+                    <a href="/services" className="hover:text-accent transition-colors">
+                      Branding
+                    </a>
+                  </li>
+                  <li>
+                    <a href="/services" className="hover:text-accent transition-colors">
+                      Social Media
+                    </a>
+                  </li>
+                  <li>
+                    <a href="/services" className="hover:text-accent transition-colors">
+                      Print Design
+                    </a>
+                  </li>
+                  <li>
+                    <a href="/services" className="hover:text-accent transition-colors">
+                      Web Design
+                    </a>
+                  </li>
                 </ul>
               </div>
 
               <div>
                 <h4 className="font-bold mb-4">Perusahaan</h4>
                 <ul className="space-y-2 text-sm opacity-80">
-                  <li><a href="/about" className="hover:text-accent transition-colors">Tentang Kami</a></li>
-                  <li><a href="/portfolio-showcase" className="hover:text-accent transition-colors">Portfolio</a></li>
-                  <li><a href="/resource-center" className="hover:text-accent transition-colors">Sumber Daya</a></li>
-                  <li><a href="/order-form" className="hover:text-accent transition-colors">Hubungi Kami</a></li>
+                  <li>
+                    <a href="/about" className="hover:text-accent transition-colors">
+                      Tentang Kami
+                    </a>
+                  </li>
+                  <li>
+                    <a href="/order-form" className="hover:text-accent transition-colors">
+                      Hubungi Kami
+                    </a>
+                  </li>
                 </ul>
               </div>
             </div>

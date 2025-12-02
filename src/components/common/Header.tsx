@@ -15,13 +15,9 @@ const Header = ({ className = '' }: HeaderProps) => {
     { label: 'Beranda', href: '/homepage' },
     { label: 'Tentang Kami', href: '/about' },
     { label: 'Layanan', href: '/services' },
-   
   ];
 
-  const moreMenuItems = [
-    { label: 'Pesan Sekarang', href: '/order-form' },
-    { label: 'Sumber Daya', href: '/resource-center' },
-  ];
+  const moreMenuItems = [{ label: 'Pesan Sekarang', href: '/order-form' }];
 
   const [isMoreMenuOpen, setIsMoreMenuOpen] = useState(false);
 
@@ -34,11 +30,16 @@ const Header = ({ className = '' }: HeaderProps) => {
   };
 
   return (
-    <header className={`w-full bg-background border-b border-border sticky top-0 z-50 ${className}`}>
+    <header
+      className={`w-full bg-background border-b border-border sticky top-0 z-50 ${className}`}
+    >
       <div className="container mx-auto px-4">
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
-          <Link href="/homepage" className="flex items-center space-x-2 hover:opacity-80 transition-opacity">
+          <Link
+            href="/homepage"
+            className="flex items-center space-x-2 hover:opacity-80 transition-opacity"
+          >
             <div className="w-10 h-10 bg-gradient-to-br from-primary to-secondary rounded-lg flex items-center justify-center">
               <span className="text-white font-bold text-xl">B</span>
             </div>
@@ -59,7 +60,7 @@ const Header = ({ className = '' }: HeaderProps) => {
                 {item.label}
               </Link>
             ))}
-            
+
             {/* More Menu */}
             <div className="relative">
               <button
@@ -67,13 +68,13 @@ const Header = ({ className = '' }: HeaderProps) => {
                 className="px-4 py-2 text-sm font-medium text-foreground hover:text-primary hover:bg-muted rounded-md transition-all duration-base flex items-center space-x-1"
               >
                 <span>Lainnya</span>
-                <Icon 
-                  name="ChevronDownIcon" 
-                  size={16} 
+                <Icon
+                  name="ChevronDownIcon"
+                  size={16}
                   className={`transition-transform duration-base ${isMoreMenuOpen ? 'rotate-180' : ''}`}
                 />
               </button>
-              
+
               {isMoreMenuOpen && (
                 <div className="absolute right-0 mt-2 w-48 bg-card rounded-md shadow-lg border border-border animate-fade-in">
                   {moreMenuItems.map((item) => (

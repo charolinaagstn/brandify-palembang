@@ -21,26 +21,22 @@ const Footer = ({ className = '' }: FooterProps) => {
     company: [
       { label: 'Tentang Kami', href: '/about' },
       { label: 'Layanan', href: '/services' },
-      { label: 'Portfolio', href: '/portfolio-showcase' },
-      { label: 'Sumber Daya', href: '/resource-center' }
     ],
     services: [
       { label: 'Desain Logo', href: '/services' },
       { label: 'Desain Kemasan', href: '/services' },
       { label: 'Media Sosial', href: '/services' },
-      { label: 'Marketing Material', href: '/services' }
+      { label: 'Marketing Material', href: '/services' },
     ],
     contact: [
-      { icon: 'PhoneIcon', text: '+62 812-3456-7890', href: 'tel:+6281234567890' },
-      { icon: 'EnvelopeIcon', text: 'info@brandifypalembang.com', href: 'mailto:info@brandifypalembang.com' },
-      { icon: 'MapPinIcon', text: 'Palembang, Sumatera Selatan', href: '#' }
+      { icon: 'PhoneIcon', text: '+62 823-7532-8943', href: 'tel:+6282375328943' },
+      { icon: 'MapPinIcon', text: 'Palembang, Sumatera Selatan', href: '#' },
+      {
+        icon: 'fa-instagram',
+        text: 'Instagram',
+        href: 'https://www.instagram.com/brandify.palembang?igsh=MWZkOTliaHVraW54cw==',
+      },
     ],
-    social: [
-      { icon: 'fa-instagram', label: 'Instagram', href: '#' },
-      { icon: 'fa-facebook', label: 'Facebook', href: '#' },
-      { icon: 'fa-whatsapp', label: 'WhatsApp', href: '#' },
-      { icon: 'fa-linkedin', label: 'LinkedIn', href: '#' }
-    ]
   };
 
   return (
@@ -60,20 +56,9 @@ const Footer = ({ className = '' }: FooterProps) => {
               </div>
             </div>
             <p className="text-white/80 text-sm mb-4">
-              Transformasi visual untuk UMKM Palembang. Bangun brand yang kuat dan profesional bersama kami.
+              Transformasi visual untuk UMKM Palembang. Bangun brand yang kuat dan profesional
+              bersama kami.
             </p>
-            <div className="flex space-x-3">
-              {footerLinks.social.map((social, index) => (
-                <a
-                  key={index}
-                  href={social.href}
-                  className="w-10 h-10 bg-white/10 rounded-full flex items-center justify-center hover:bg-accent transition-colors"
-                  aria-label={social.label}
-                >
-                  <Icon name="ShareIcon" size={18} />
-                </a>
-              ))}
-            </div>
           </div>
 
           {/* Company Links */}
@@ -120,7 +105,11 @@ const Footer = ({ className = '' }: FooterProps) => {
                     href={contact.href}
                     className="flex items-start text-white/80 hover:text-accent transition-colors text-sm"
                   >
-                    <Icon name={contact.icon as any} size={18} className="mr-2 mt-0.5 flex-shrink-0" />
+                    <Icon
+                      name={contact.icon as any}
+                      size={18}
+                      className="mr-2 mt-0.5 flex-shrink-0"
+                    />
                     <span>{contact.text}</span>
                   </a>
                 </li>
@@ -133,7 +122,8 @@ const Footer = ({ className = '' }: FooterProps) => {
         <div className="border-t border-white/20 pt-8">
           <div className="flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
             <p className="text-white/70 text-sm text-center md:text-left">
-              {isHydrated ? `© ${currentYear}` : '© 2025'} Brandify Palembang. Semua hak dilindungi.
+              {isHydrated ? `© ${currentYear}` : '© 2025'} Brandify Palembang. Semua hak
+              dilindungi.
             </p>
             <div className="flex space-x-6">
               <Link href="#" className="text-white/70 hover:text-accent transition-colors text-sm">
