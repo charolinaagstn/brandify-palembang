@@ -29,7 +29,7 @@ export default function ValuesSection({ values }: ValuesSectionProps) {
               key={index}
               className="bg-card rounded-xl p-6 shadow-md hover:shadow-lg transition-all duration-300 border border-border hover:border-accent group"
             >
-              <div className="inline-flex items-center justify-center w-14 h-14 rounded-full bg-accent/10 mb-4 group-hover:bg-accent/20 transition-colors duration-300">
+              <div className="inline-flex items-center justify-center w-14 h-14 rounded-full bg-secondary/10 mb-4 group-hover:bg-secondary/20 transition-colors duration-300">
                 <Icon
                   name={value.icon as any}
                   size={28}

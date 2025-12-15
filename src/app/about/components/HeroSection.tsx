@@ -16,7 +16,7 @@ export default function HeroSection({ title, subtitle, motto }: HeroSectionProps
       
       <div className="container mx-auto px-4 relative z-10">
         <div className="max-w-4xl mx-auto text-center">
-          <div className="inline-block mb-6 px-6 py-2 bg-accent/10 rounded-full border border-accent/20">
+          <div className="inline-block mb-6 px-6 py-2 bg-secondary/10 rounded-full border border-accent/20">
             <span className="text-accent font-semibold text-sm uppercase tracking-wider">Tentang Kami</span>
           </div>
           

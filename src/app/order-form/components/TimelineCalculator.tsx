@@ -40,7 +40,7 @@ const TimelineCalculator = ({ selectedServices, urgency }: TimelineCalculatorPro
   return (
     <div className="bg-gradient-to-br from-accent/10 to-primary/10 rounded-lg p-6 border border-accent/20">
       <div className="flex items-start space-x-4">
-        <div className="w-12 h-12 bg-accent rounded-lg flex items-center justify-center flex-shrink-0">
+        <div className="w-12 h-12 bg-secondary rounded-lg flex items-center justify-center flex-shrink-0">
           <Icon name="CalendarIcon" size={24} className="text-white" />
         </div>
         <div className="flex-1">

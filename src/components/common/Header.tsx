@@ -14,7 +14,6 @@ const Header = ({ className = '' }: HeaderProps) => {
   const navigationItems = [
     { label: 'Beranda', href: '/homepage' },
     { label: 'Tentang Kami', href: '/about' },
-    { label: 'Layanan', href: '/services' },
   ];
 
   const moreMenuItems = [{ label: 'Pesan Sekarang', href: '/order-form' }];
@@ -96,9 +95,9 @@ const Header = ({ className = '' }: HeaderProps) => {
           <div className="hidden lg:flex items-center space-x-4">
             <Link
               href="/order-form"
-              className="px-6 py-2.5 bg-accent text-accent-foreground font-semibold rounded-md hover:bg-accent/90 transition-all duration-base shadow-md hover:shadow-lg transform hover:scale-105"
+              className="px-6 py-2.5 bg-secondary text-accent-foreground font-semibold rounded-md hover:bg-secondary/90 transition-all duration-base shadow-md hover:shadow-lg transform hover:scale-105"
             >
-              Mulai Transformasi
+              Pesan Sekarang
             </Link>
           </div>
 
@@ -138,7 +137,7 @@ const Header = ({ className = '' }: HeaderProps) => {
               ))}
               <Link
                 href="/order-form"
-                className="mx-4 mt-4 px-6 py-2.5 bg-accent text-accent-foreground font-semibold rounded-md hover:bg-accent/90 transition-all duration-base text-center shadow-md"
+                className="mx-4 mt-4 px-6 py-2.5 bg-secondary text-accent-foreground font-semibold rounded-md hover:bg-secondary/90 transition-all duration-base text-center shadow-md"
                 onClick={() => setIsMobileMenuOpen(false)}
               >
                 Mulai Transformasi

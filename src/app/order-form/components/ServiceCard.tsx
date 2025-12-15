@@ -22,14 +22,14 @@ const ServiceCard = ({ service, isSelected, onSelect }: ServiceCardProps) => {
       onClick={onSelect}
       className={`w-full p-6 rounded-lg border-2 transition-all duration-300 text-left ${
         isSelected
-          ? 'border-accent bg-accent/5 shadow-lg'
+          ? 'border-accent bg-secondary/5 shadow-lg'
           : 'border-border hover:border-accent/50 hover:shadow-md'
       }`}
     >
       <div className="flex items-start space-x-4">
         <div
           className={`w-12 h-12 rounded-lg flex items-center justify-center flex-shrink-0 ${
-            isSelected ? 'bg-accent text-white' : 'bg-muted text-primary'
+            isSelected ? 'bg-secondary text-white' : 'bg-muted text-primary'
           }`}
         >
           <Icon name={service.icon as any} size={24} />
@@ -38,7 +38,7 @@ const ServiceCard = ({ service, isSelected, onSelect }: ServiceCardProps) => {
           <div className="flex items-start justify-between mb-2">
             <h3 className="font-semibold text-lg text-foreground">{service.name}</h3>
             {isSelected && (
-              <div className="w-6 h-6 bg-accent rounded-full flex items-center justify-center">
+              <div className="w-6 h-6 bg-secondary rounded-full flex items-center justify-center">
                 <Icon name="CheckIcon" size={16} className="text-white" />
               </div>
             )}

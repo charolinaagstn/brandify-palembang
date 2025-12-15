@@ -115,7 +115,7 @@ const HeroSection = ({ className = '' }: HeroSectionProps) => {
                 </p>
                 <Link
                 href={slide.ctaLink}
-                className="inline-flex items-center px-8 py-4 bg-accent text-white font-semibold rounded-lg hover:bg-accent/90 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105 animate-slide-in-left"
+                className="inline-flex items-center px-8 py-4 bg-secondary text-white font-semibold rounded-lg hover:bg-secondary/90 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105 animate-slide-in-left"
                 style={{ animationDelay: '0.3s' }}>
 
                   {slide.cta}
@@ -151,7 +151,7 @@ const HeroSection = ({ className = '' }: HeroSectionProps) => {
           onClick={() => handleSlideChange(index)}
           className={`w-3 h-3 rounded-full transition-all duration-300 ${
           index === currentSlide ?
-          'bg-accent w-8' : 'bg-white/50 hover:bg-white/70'}`
+          'bg-secondary w-8' : 'bg-white/50 hover:bg-white/70'}`
           }
           aria-label={`Go to slide ${index + 1}`} />
 

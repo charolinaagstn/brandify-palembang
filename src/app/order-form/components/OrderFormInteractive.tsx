@@ -1,11 +1,11 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import Icon from '@/components/ui/AppIcon';
-import FormProgress from './FormProgress';
-import ServiceCard from './ServiceCard';
-import FileUpload from './FileUpload';
-import TimelineCalculator from './TimelineCalculator';
+import { 
+  User, Mail, Phone, Building2, Sparkles, Palette, Image,
+  Clock, Zap, Rocket, Check, Shield, MessageCircle, BadgeCheck,
+  ArrowLeft, ArrowRight, Send, AlertCircle, Info, CheckCircle
+} from 'lucide-react';
 
 interface FormData {
   name: string;
@@ -13,10 +13,7 @@ interface FormData {
   phone: string;
   businessName: string;
   selectedServices: string[];
-  urgency: string;
-  budget: string;
   projectDescription: string;
-  referenceFiles: File[];
   preferredContact: string;
 }
 
@@ -26,7 +23,7 @@ interface Service {
   description: string;
   price: string;
   timeline: string;
-  icon: string;
+  icon: any;
 }
 
 const OrderFormInteractive = () => {
@@ -38,10 +35,7 @@ const OrderFormInteractive = () => {
     phone: '',
     businessName: '',
     selectedServices: [],
-    urgency: 'normal',
-    budget: '',
     projectDescription: '',
-    referenceFiles: [],
     preferredContact: 'whatsapp'
   });
   const [errors, setErrors] = useState<{ [key: string]: string }>({});
@@ -57,49 +51,33 @@ const OrderFormInteractive = () => {
       id: 'logo-design',
       name: 'Desain Logo',
       description: 'Logo profesional yang mencerminkan identitas bisnis Anda',
-      price: 'Mulai dari Rp 500.000',
-      timeline: '5-7 hari',
-      icon: 'SparklesIcon'
+      price: 'Mulai dari Rp 15.000',
+      timeline: '1-2 hari',
+      icon: Sparkles
     },
     {
       id: 'brand-identity',
-      name: 'Identitas Brand',
-      description: 'Paket lengkap logo, warna, tipografi, dan panduan brand',
-      price: 'Mulai dari Rp 2.500.000',
-      timeline: '10-14 hari',
-      icon: 'SwatchIcon'
+      name: 'Poster Promosi',
+      description: 'Sebarkan informasi UMKM anda dengan poster dan material cetak lainnya',
+      price: 'Mulai dari Rp 15.000',
+      timeline: '1-2 hari',
+      icon: Palette
     },
     {
       id: 'social-media',
       name: 'Desain Media Sosial',
       description: 'Template konten untuk Instagram, Facebook, dan platform lainnya',
-      price: 'Mulai dari Rp 750.000',
-      timeline: '3-5 hari',
-      icon: 'PhotoIcon'
+      price: 'Mulai dari Rp 25.000',
+      timeline: '1-3 hari',
+      icon: Image
     },
     {
-      id: 'packaging',
-      name: 'Desain Kemasan',
-      description: 'Kemasan produk yang menarik dan fungsional',
-      price: 'Mulai dari Rp 1.500.000',
-      timeline: '7-10 hari',
-      icon: 'CubeIcon'
-    },
-    {
-      id: 'web-design',
-      name: 'Desain Website',
-      description: 'Website modern dan responsif untuk bisnis Anda',
-      price: 'Mulai dari Rp 5.000.000',
-      timeline: '14-21 hari',
-      icon: 'ComputerDesktopIcon'
-    },
-    {
-      id: 'print-design',
-      name: 'Desain Cetak',
-      description: 'Brosur, kartu nama, banner, dan materi promosi lainnya',
-      price: 'Mulai dari Rp 300.000',
-      timeline: '3-7 hari',
-      icon: 'DocumentTextIcon'
+      id: 'spanduk-banner',
+      name: 'Desain Spanduk dan Banner',
+      description: 'Layanan desain spanduk yang cocok serta komplit untuk bisnis anda',
+      price: 'Mulai dari Rp 25.000',
+      timeline: '1-3 hari',
+      icon: Sparkles
     }
   ];
 
@@ -125,15 +103,11 @@ const OrderFormInteractive = () => {
       if (formData.selectedServices.length === 0) {
         newErrors.services = 'Pilih minimal satu layanan';
       }
-    }
-
-    if (step === 3) {
       if (!formData.projectDescription.trim()) {
         newErrors.projectDescription = 'Deskripsi proyek wajib diisi';
-      } else if (formData.projectDescription.trim().length < 50) {
-        newErrors.projectDescription = 'Deskripsi minimal 50 karakter';
+      } else if (formData.projectDescription.trim().length < 30) {
+        newErrors.projectDescription = 'Deskripsi minimal 30 karakter';
       }
-      if (!formData.budget) newErrors.budget = 'Pilih rentang budget';
     }
 
     setErrors(newErrors);
@@ -163,26 +137,40 @@ const OrderFormInteractive = () => {
   };
 
   const handleSubmit = () => {
-    if (!validateStep(3)) return;
+    if (!validateStep(2)) return;
 
     setIsSubmitting(true);
 
-    // Simulate submission delay
     setTimeout(() => {
       setIsSubmitting(false);
       setShowConfirmation(true);
       
-      // Generate WhatsApp message
       const selectedServiceNames = services
         .filter(s => formData.selectedServices.includes(s.id))
         .map(s => s.name)
         .join(', ');
 
-      const message = `Halo Brandify Palembang!\n\nSaya ingin memesan layanan desain:\n\nNama: ${formData.name}\nBisnis: ${formData.businessName}\nEmail: ${formData.email}\nTelepon: ${formData.phone}\n\nLayanan: ${selectedServiceNames}\nUrgency: ${formData.urgency === 'express' ? 'Express' : formData.urgency === 'standard' ? 'Standard' : 'Normal'}\nBudget: ${formData.budget}\n\nDeskripsi Proyek:\n${formData.projectDescription}\n\nTerima kasih!`;
+      const message = `Halo Brandify Palembang!
 
-      const whatsappUrl = `https://wa.me/6281234567890?text=${encodeURIComponent(message)}`;
+Saya ingin memesan layanan desain:
+
+📋 *INFORMASI KONTAK*
+Nama: ${formData.name}
+Bisnis: ${formData.businessName}
+Email: charolinaagustin03@gmail.com
+Telepon: 085717904178
+Kontak Preferensi: ${formData.preferredContact === 'whatsapp' ? 'WhatsApp' : formData.preferredContact === 'email' ? 'Email' : 'Telepon'}
+
+🎨 *LAYANAN YANG DIPILIH*
+${selectedServiceNames}
+
+📝 *DESKRIPSI PROYEK*
+${formData.projectDescription}
+
+Terima kasih! Saya menunggu konfirmasi dari tim Brandify.`;
+
+      const whatsappUrl = `https://wa.me/6282375328943?text=${encodeURIComponent(message)}`;
       
-      // Open WhatsApp in new tab after 2 seconds
       setTimeout(() => {
         if (isHydrated && typeof window !== 'undefined') {
           window.open(whatsappUrl, '_blank');
@@ -191,12 +179,84 @@ const OrderFormInteractive = () => {
     }, 1500);
   };
 
+  // Progress Bar Component
+  const ProgressBar = ({ current, total }: { current: number; total: number }) => (
+    <div className="mb-12">
+      <div className="flex items-center justify-between mb-4">
+        {Array.from({ length: total }).map((_, idx) => {
+          const stepNum = idx + 1;
+          const isActive = stepNum === current;
+          const isCompleted = stepNum < current;
+          
+          return (
+            <div key={stepNum} className="flex items-center flex-1">
+              <div className="flex flex-col items-center flex-1">
+                <div className={`w-12 h-12 rounded-full flex items-center justify-center font-bold text-lg transition-all ${
+                  isActive ? 'bg-blue-600 text-white scale-110 shadow-lg' :
+                  isCompleted ? 'bg-green-500 text-white' : 'bg-gray-200 text-gray-500'
+                }`}>
+                  {isCompleted ? <Check size={24} /> : stepNum}
+                </div>
+                <span className={`text-sm mt-2 font-medium ${
+                  isActive ? 'text-blue-600' : isCompleted ? 'text-green-600' : 'text-gray-400'
+                }`}>
+                  {stepNum === 1 ? 'Info Dasar' : stepNum === 2 ? 'Layanan & Detail' : 'Konfirmasi'}
+                </span>
+              </div>
+              {stepNum < total && (
+                <div className={`h-1 flex-1 mx-2 rounded transition-all ${
+                  stepNum < current ? 'bg-green-500' : 'bg-gray-200'
+                }`} />
+              )}
+            </div>
+          );
+        })}
+      </div>
+    </div>
+  );
+
+  // Service Card Component
+  const ServiceCard = ({ service, isSelected, onSelect }: any) => {
+    const Icon = service.icon;
+    return (
+      <button
+        type="button"
+        onClick={onSelect}
+        className={`p-6 rounded-xl border-2 transition-all text-left ${
+          isSelected 
+            ? 'border-blue-500 bg-blue-50 shadow-lg scale-105' 
+            : 'border-gray-200 hover:border-blue-300 hover:shadow-md'
+        }`}
+      >
+        <div className="flex items-start justify-between mb-3">
+          <div className={`p-3 rounded-lg ${isSelected ? 'bg-blue-100' : 'bg-gray-100'}`}>
+            <Icon size={28} className={isSelected ? 'text-blue-600' : 'text-gray-600'} />
+          </div>
+          {isSelected && (
+            <div className="bg-blue-600 text-white rounded-full p-1">
+              <Check size={20} />
+            </div>
+          )}
+        </div>
+        <h3 className="font-bold text-lg text-gray-900 mb-2">{service.name}</h3>
+        <p className="text-sm text-gray-600 mb-4">{service.description}</p>
+        <div className="flex items-center justify-between text-sm">
+          <span className="font-semibold text-blue-600">{service.price}</span>
+          <span className="text-gray-500 flex items-center">
+            <Clock size={14} className="mr-1" />
+            {service.timeline}
+          </span>
+        </div>
+      </button>
+    );
+  };
+
   if (!isHydrated) {
     return (
-      <div className="min-h-screen bg-background flex items-center justify-center">
+      <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 flex items-center justify-center">
         <div className="text-center">
-          <div className="w-16 h-16 border-4 border-primary border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
-          <p className="text-text-secondary">Memuat formulir...</p>
+          <div className="w-16 h-16 border-4 border-blue-600 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
+          <p className="text-gray-600">Memuat formulir...</p>
         </div>
       </div>
     );
@@ -204,71 +264,56 @@ const OrderFormInteractive = () => {
 
   if (showConfirmation) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-accent/10 to-primary/10 flex items-center justify-center p-4">
-        <div className="max-w-2xl w-full bg-white rounded-2xl shadow-xl p-8 text-center">
-          <div className="w-20 h-20 bg-success rounded-full flex items-center justify-center mx-auto mb-6">
-            <Icon name="CheckIcon" size={40} className="text-white" />
+      <div className="min-h-screen bg-gradient-to-br from-green-50 to-blue-50 flex items-center justify-center p-4">
+        <div className="max-w-2xl w-full bg-white rounded-2xl shadow-2xl p-8 text-center">
+          <div className="w-24 h-24 bg-green-500 rounded-full flex items-center justify-center mx-auto mb-6 animate-bounce">
+            <CheckCircle size={48} className="text-white" />
           </div>
-          <h1 className="text-3xl font-bold text-foreground mb-4">
-            Pesanan Berhasil Dikirim!
+          <h1 className="text-4xl font-bold text-gray-900 mb-4">
+            Pesanan Berhasil Dikirim! 🎉
           </h1>
-          <p className="text-text-secondary mb-6 text-lg">
-            Terima kasih {formData.name}! Kami akan segera menghubungi Anda melalui WhatsApp untuk membahas detail proyek.
+          <p className="text-gray-600 mb-8 text-lg">
+            Terima kasih <span className="font-semibold text-blue-600">{formData.name}</span>! Kami akan segera menghubungi Anda melalui WhatsApp untuk membahas detail proyek.
           </p>
-          <div className="bg-muted rounded-lg p-6 mb-6 text-left">
-            <h3 className="font-semibold text-foreground mb-3">Langkah Selanjutnya:</h3>
-            <div className="space-y-3">
-              <div className="flex items-start">
-                <div className="w-6 h-6 bg-accent rounded-full flex items-center justify-center flex-shrink-0 mr-3 mt-0.5">
-                  <span className="text-white text-sm font-bold">1</span>
+          
+          <div className="bg-blue-50 rounded-xl p-6 mb-8 text-left">
+            <h3 className="font-bold text-gray-900 mb-4 flex items-center">
+              <Info className="mr-2 text-blue-600" size={24} />
+              Langkah Selanjutnya
+            </h3>
+            <div className="space-y-4">
+              {[
+                { num: 1, text: 'Tim kami akan menghubungi Anda dalam 1-2 jam kerja' },
+                { num: 2, text: 'Diskusi detail proyek dan konfirmasi timeline' },
+                { num: 3, text: 'Pembayaran dan mulai pengerjaan proyek' }
+              ].map(step => (
+                <div key={step.num} className="flex items-start">
+                  <div className="w-8 h-8 bg-blue-600 rounded-full flex items-center justify-center flex-shrink-0 mr-3">
+                    <span className="text-white text-sm font-bold">{step.num}</span>
+                  </div>
+                  <p className="text-gray-700 pt-1">{step.text}</p>
                 </div>
-                <p className="text-sm text-text-secondary">
-                  Tim kami akan menghubungi Anda dalam 1-2 jam kerja
-                </p>
-              </div>
-              <div className="flex items-start">
-                <div className="w-6 h-6 bg-accent rounded-full flex items-center justify-center flex-shrink-0 mr-3 mt-0.5">
-                  <span className="text-white text-sm font-bold">2</span>
-                </div>
-                <p className="text-sm text-text-secondary">
-                  Diskusi detail proyek dan konfirmasi timeline
-                </p>
-              </div>
-              <div className="flex items-start">
-                <div className="w-6 h-6 bg-accent rounded-full flex items-center justify-center flex-shrink-0 mr-3 mt-0.5">
-                  <span className="text-white text-sm font-bold">3</span>
-                </div>
-                <p className="text-sm text-text-secondary">
-                  Pembayaran dan mulai pengerjaan proyek
-                </p>
-              </div>
+              ))}
             </div>
           </div>
+
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <button
               onClick={() => {
                 setShowConfirmation(false);
                 setCurrentStep(1);
                 setFormData({
-                  name: '',
-                  email: '',
-                  phone: '',
-                  businessName: '',
-                  selectedServices: [],
-                  urgency: 'normal',
-                  budget: '',
-                  projectDescription: '',
-                  referenceFiles: [],
-                  preferredContact: 'whatsapp'
+                  name: '', email: '', phone: '', businessName: '',
+                  selectedServices: [], projectDescription: '', preferredContact: 'whatsapp'
                 });
               }}
-              className="px-6 py-3 bg-muted text-foreground font-semibold rounded-lg hover:bg-muted/80 transition-colors"
+              className="px-8 py-3 bg-gray-200 text-gray-700 font-semibold rounded-lg hover:bg-gray-300 transition-colors"
             >
               Buat Pesanan Baru
             </button>
             <a
               href="/homepage"
-              className="px-6 py-3 bg-primary text-white font-semibold rounded-lg hover:bg-primary/90 transition-colors"
+              className="px-8 py-3 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700 transition-colors"
             >
               Kembali ke Beranda
             </a>
@@ -279,39 +324,41 @@ const OrderFormInteractive = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-muted to-background py-12 px-4">
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50 py-12 px-4">
       <div className="max-w-4xl mx-auto">
         {/* Header */}
-        <div className="text-center mb-12">
-          <h1 className="text-4xl font-bold text-foreground mb-4">
-            Formulir Pemesanan
+        <div className="text-center mb-8">
+          <h1 className="text-5xl font-bold text-gray-900 mb-4">
+            Formulir Pemesanan ✨
           </h1>
-          <p className="text-text-secondary text-lg">
-            Isi formulir di bawah ini untuk memulai transformasi brand Anda
+          <p className="text-gray-600 text-xl">
+            Mulai transformasi brand Anda dalam 3 langkah mudah
           </p>
         </div>
 
-        {/* Progress Indicator */}
-        <FormProgress currentStep={currentStep} totalSteps={4} />
+        <ProgressBar current={currentStep} total={3} />
 
         {/* Form Container */}
-        <div className="bg-white rounded-2xl shadow-xl p-8 mb-8">
+        <div className="bg-white rounded-3xl shadow-2xl p-8 mb-8">
           {/* Step 1: Basic Information */}
           {currentStep === 1 && (
             <div className="space-y-6">
-              <div>
-                <h2 className="text-2xl font-bold text-foreground mb-2">
+              <div className="text-center mb-8">
+                <div className="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                  <User size={32} className="text-blue-600" />
+                </div>
+                <h2 className="text-3xl font-bold text-gray-900 mb-2">
                   Informasi Dasar
                 </h2>
-                <p className="text-text-secondary">
+                <p className="text-gray-600">
                   Berikan informasi kontak Anda agar kami dapat menghubungi Anda
                 </p>
               </div>
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div>
-                  <label className="block text-sm font-medium text-foreground mb-2">
-                    Nama Lengkap <span className="text-destructive">*</span>
+                  <label className="block text-sm font-semibold text-gray-700 mb-2">
+                    Nama Lengkap <span className="text-red-500">*</span>
                   </label>
                   <input
                     type="text"
@@ -320,22 +367,22 @@ const OrderFormInteractive = () => {
                       setFormData({ ...formData, name: e.target.value });
                       setErrors({ ...errors, name: '' });
                     }}
-                    className={`w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-accent transition-all ${
-                      errors.name ? 'border-destructive' : 'border-border'
+                    className={`w-full px-4 py-3 border-2 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all ${
+                      errors.name ? 'border-red-500' : 'border-gray-200'
                     }`}
                     placeholder="Masukkan nama lengkap Anda"
                   />
                   {errors.name && (
-                    <p className="mt-1 text-sm text-destructive flex items-center">
-                      <Icon name="ExclamationCircleIcon" size={16} className="mr-1" />
+                    <p className="mt-2 text-sm text-red-500 flex items-center">
+                      <AlertCircle size={16} className="mr-1" />
                       {errors.name}
                     </p>
                   )}
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-foreground mb-2">
-                    Email <span className="text-destructive">*</span>
+                  <label className="block text-sm font-semibold text-gray-700 mb-2">
+                    Email <span className="text-red-500">*</span>
                   </label>
                   <input
                     type="email"
@@ -344,22 +391,22 @@ const OrderFormInteractive = () => {
                       setFormData({ ...formData, email: e.target.value });
                       setErrors({ ...errors, email: '' });
                     }}
-                    className={`w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-accent transition-all ${
-                      errors.email ? 'border-destructive' : 'border-border'
+                    className={`w-full px-4 py-3 border-2 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all ${
+                      errors.email ? 'border-red-500' : 'border-gray-200'
                     }`}
                     placeholder="nama@email.com"
                   />
                   {errors.email && (
-                    <p className="mt-1 text-sm text-destructive flex items-center">
-                      <Icon name="ExclamationCircleIcon" size={16} className="mr-1" />
+                    <p className="mt-2 text-sm text-red-500 flex items-center">
+                      <AlertCircle size={16} className="mr-1" />
                       {errors.email}
                     </p>
                   )}
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-foreground mb-2">
-                    Nomor Telepon <span className="text-destructive">*</span>
+                  <label className="block text-sm font-semibold text-gray-700 mb-2">
+                    Nomor Telepon <span className="text-red-500">*</span>
                   </label>
                   <input
                     type="tel"
@@ -368,22 +415,22 @@ const OrderFormInteractive = () => {
                       setFormData({ ...formData, phone: e.target.value });
                       setErrors({ ...errors, phone: '' });
                     }}
-                    className={`w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-accent transition-all ${
-                      errors.phone ? 'border-destructive' : 'border-border'
+                    className={`w-full px-4 py-3 border-2 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all ${
+                      errors.phone ? 'border-red-500' : 'border-gray-200'
                     }`}
                     placeholder="08123456789"
                   />
                   {errors.phone && (
-                    <p className="mt-1 text-sm text-destructive flex items-center">
-                      <Icon name="ExclamationCircleIcon" size={16} className="mr-1" />
+                    <p className="mt-2 text-sm text-red-500 flex items-center">
+                      <AlertCircle size={16} className="mr-1" />
                       {errors.phone}
                     </p>
                   )}
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-foreground mb-2">
-                    Nama Bisnis/UMKM <span className="text-destructive">*</span>
+                  <label className="block text-sm font-semibold text-gray-700 mb-2">
+                    Nama Bisnis/UMKM <span className="text-red-500">*</span>
                   </label>
                   <input
                     type="text"
@@ -392,14 +439,14 @@ const OrderFormInteractive = () => {
                       setFormData({ ...formData, businessName: e.target.value });
                       setErrors({ ...errors, businessName: '' });
                     }}
-                    className={`w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-accent transition-all ${
-                      errors.businessName ? 'border-destructive' : 'border-border'
+                    className={`w-full px-4 py-3 border-2 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all ${
+                      errors.businessName ? 'border-red-500' : 'border-gray-200'
                     }`}
                     placeholder="Nama bisnis Anda"
                   />
                   {errors.businessName && (
-                    <p className="mt-1 text-sm text-destructive flex items-center">
-                      <Icon name="ExclamationCircleIcon" size={16} className="mr-1" />
+                    <p className="mt-2 text-sm text-red-500 flex items-center">
+                      <AlertCircle size={16} className="mr-1" />
                       {errors.businessName}
                     </p>
                   )}
@@ -407,146 +454,85 @@ const OrderFormInteractive = () => {
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-foreground mb-2">
+                <label className="block text-sm font-semibold text-gray-700 mb-3">
                   Metode Kontak Preferensi
                 </label>
                 <div className="flex flex-wrap gap-3">
                   {[
-                    { value: 'whatsapp', label: 'WhatsApp', icon: 'ChatBubbleLeftRightIcon' },
-                    { value: 'email', label: 'Email', icon: 'EnvelopeIcon' },
-                    { value: 'phone', label: 'Telepon', icon: 'PhoneIcon' }
-                  ].map((method) => (
-                    <button
-                      key={method.value}
-                      type="button"
-                      onClick={() => setFormData({ ...formData, preferredContact: method.value })}
-                      className={`flex items-center space-x-2 px-4 py-2 rounded-lg border-2 transition-all ${
-                        formData.preferredContact === method.value
-                          ? 'border-accent bg-accent/5 text-accent' :'border-border hover:border-accent/50'
-                      }`}
-                    >
-                      <Icon name={method.icon as any} size={20} />
-                      <span className="font-medium">{method.label}</span>
-                    </button>
-                  ))}
+                    { value: 'whatsapp', label: 'WhatsApp', icon: MessageCircle },
+                    { value: 'email', label: 'Email', icon: Mail },
+                    { value: 'phone', label: 'Telepon', icon: Phone }
+                  ].map((method) => {
+                    const Icon = method.icon;
+                    return (
+                      <button
+                        key={method.value}
+                        type="button"
+                        onClick={() => setFormData({ ...formData, preferredContact: method.value })}
+                        className={`flex items-center space-x-2 px-6 py-3 rounded-xl border-2 transition-all font-medium ${
+                          formData.preferredContact === method.value
+                            ? 'border-blue-500 bg-blue-50 text-blue-700 shadow-md'
+                            : 'border-gray-200 hover:border-blue-300 text-gray-700'
+                        }`}
+                      >
+                        <Icon size={20} />
+                        <span>{method.label}</span>
+                      </button>
+                    );
+                  })}
                 </div>
               </div>
             </div>
           )}
 
-          {/* Step 2: Service Selection */}
+          {/* Step 2: Service Selection & Project Details */}
           {currentStep === 2 && (
-            <div className="space-y-6">
-              <div>
-                <h2 className="text-2xl font-bold text-foreground mb-2">
-                  Pilih Layanan
+            <div className="space-y-8">
+              <div className="text-center mb-8">
+                <div className="w-16 h-16 bg-purple-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                  <Sparkles size={32} className="text-purple-600" />
+                </div>
+                <h2 className="text-3xl font-bold text-gray-900 mb-2">
+                  Layanan & Detail Proyek
                 </h2>
-                <p className="text-text-secondary">
-                  Pilih satu atau lebih layanan yang Anda butuhkan
+                <p className="text-gray-600">
+                  Pilih layanan dan ceritakan tentang proyek Anda
                 </p>
               </div>
 
               {errors.services && (
-                <div className="bg-destructive/10 border border-destructive rounded-lg p-4 flex items-center">
-                  <Icon name="ExclamationCircleIcon" size={20} className="text-destructive mr-2" />
-                  <span className="text-destructive font-medium">{errors.services}</span>
+                <div className="bg-red-50 border-2 border-red-200 rounded-xl p-4 flex items-center">
+                  <AlertCircle size={20} className="text-red-600 mr-2" />
+                  <span className="text-red-700 font-medium">{errors.services}</span>
                 </div>
               )}
 
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                {services.map((service) => (
-                  <ServiceCard
-                    key={service.id}
-                    service={service}
-                    isSelected={formData.selectedServices.includes(service.id)}
-                    onSelect={() => handleServiceToggle(service.id)}
-                  />
-                ))}
-              </div>
-
-              {formData.selectedServices.length > 0 && (
-                <div className="bg-accent/10 border border-accent/20 rounded-lg p-4">
-                  <p className="text-sm text-foreground">
-                    <span className="font-semibold">{formData.selectedServices.length}</span> layanan dipilih
-                  </p>
-                </div>
-              )}
-            </div>
-          )}
-
-          {/* Step 3: Project Details */}
-          {currentStep === 3 && (
-            <div className="space-y-6">
               <div>
-                <h2 className="text-2xl font-bold text-foreground mb-2">
-                  Detail Proyek
-                </h2>
-                <p className="text-text-secondary">
-                  Berikan informasi detail tentang proyek Anda
-                </p>
-              </div>
-
-              <div>
-                <label className="block text-sm font-medium text-foreground mb-2">
-                  Tingkat Urgency
-                </label>
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
-                  {[
-                    { value: 'normal', label: 'Normal', desc: 'Timeline standar', icon: 'ClockIcon' },
-                    { value: 'standard', label: 'Standard', desc: '20% lebih cepat', icon: 'BoltIcon' },
-                    { value: 'express', label: 'Express', desc: '40% lebih cepat', icon: 'RocketLaunchIcon' }
-                  ].map((urgency) => (
-                    <button
-                      key={urgency.value}
-                      type="button"
-                      onClick={() => setFormData({ ...formData, urgency: urgency.value })}
-                      className={`p-4 rounded-lg border-2 transition-all text-left ${
-                        formData.urgency === urgency.value
-                          ? 'border-accent bg-accent/5' :'border-border hover:border-accent/50'
-                      }`}
-                    >
-                      <div className="flex items-center space-x-3 mb-2">
-                        <Icon name={urgency.icon as any} size={24} className="text-primary" />
-                        <span className="font-semibold text-foreground">{urgency.label}</span>
-                      </div>
-                      <p className="text-sm text-text-secondary">{urgency.desc}</p>
-                    </button>
+                <h3 className="text-xl font-bold text-gray-900 mb-4">Pilih Layanan yang Anda Butuhkan</h3>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  {services.map((service) => (
+                    <ServiceCard
+                      key={service.id}
+                      service={service}
+                      isSelected={formData.selectedServices.includes(service.id)}
+                      onSelect={() => handleServiceToggle(service.id)}
+                    />
                   ))}
                 </div>
-              </div>
 
-              <div>
-                <label className="block text-sm font-medium text-foreground mb-2">
-                  Rentang Budget <span className="text-destructive">*</span>
-                </label>
-                <select
-                  value={formData.budget}
-                  onChange={(e) => {
-                    setFormData({ ...formData, budget: e.target.value });
-                    setErrors({ ...errors, budget: '' });
-                  }}
-                  className={`w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-accent transition-all ${
-                    errors.budget ? 'border-destructive' : 'border-border'
-                  }`}
-                >
-                  <option value="">Pilih rentang budget</option>
-                  <option value="< 1 juta">Kurang dari Rp 1.000.000</option>
-                  <option value="1-3 juta">Rp 1.000.000 - Rp 3.000.000</option>
-                  <option value="3-5 juta">Rp 3.000.000 - Rp 5.000.000</option>
-                  <option value="5-10 juta">Rp 5.000.000 - Rp 10.000.000</option>
-                  <option value="> 10 juta">Lebih dari Rp 10.000.000</option>
-                </select>
-                {errors.budget && (
-                  <p className="mt-1 text-sm text-destructive flex items-center">
-                    <Icon name="ExclamationCircleIcon" size={16} className="mr-1" />
-                    {errors.budget}
-                  </p>
+                {formData.selectedServices.length > 0 && (
+                  <div className="mt-4 bg-green-50 border-2 border-green-200 rounded-xl p-4">
+                    <p className="text-green-800 font-medium flex items-center">
+                      <Check className="mr-2" size={20} />
+                      {formData.selectedServices.length} layanan dipilih
+                    </p>
+                  </div>
                 )}
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-foreground mb-2">
-                  Deskripsi Proyek <span className="text-destructive">*</span>
+                <label className="block text-xl font-bold text-gray-900 mb-3">
+                  Deskripsi Proyek <span className="text-red-500">*</span>
                 </label>
                 <textarea
                   value={formData.projectDescription}
@@ -555,138 +541,100 @@ const OrderFormInteractive = () => {
                     setErrors({ ...errors, projectDescription: '' });
                   }}
                   rows={6}
-                  className={`w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-accent transition-all resize-none ${
-                    errors.projectDescription ? 'border-destructive' : 'border-border'
+                  className={`w-full px-4 py-3 border-2 rounded-xl focus:outline-none focus:ring-2 focus:ring-purple-500 transition-all resize-none ${
+                    errors.projectDescription ? 'border-red-500' : 'border-gray-200'
                   }`}
-                  placeholder="Ceritakan tentang bisnis Anda, target audience, gaya desain yang diinginkan, dan detail penting lainnya... (minimal 50 karakter)"
+                  placeholder="Ceritakan tentang bisnis Anda, target audience, gaya desain yang diinginkan, warna favorit, dan detail penting lainnya... (minimal 30 karakter)"
                 />
                 <div className="flex items-center justify-between mt-2">
                   {errors.projectDescription ? (
-                    <p className="text-sm text-destructive flex items-center">
-                      <Icon name="ExclamationCircleIcon" size={16} className="mr-1" />
+                    <p className="text-sm text-red-500 flex items-center">
+                      <AlertCircle size={16} className="mr-1" />
                       {errors.projectDescription}
                     </p>
                   ) : (
-                    <p className="text-sm text-text-secondary">
-                      {formData.projectDescription.length} / 50 karakter minimum
+                    <p className="text-sm text-gray-500">
+                      {formData.projectDescription.length} / 30 karakter minimum
                     </p>
                   )}
                 </div>
               </div>
-
-              <div>
-                <label className="block text-sm font-medium text-foreground mb-2">
-                  Upload Referensi (Opsional)
-                </label>
-                <FileUpload
-                  onFilesChange={(files) => setFormData({ ...formData, referenceFiles: files })}
-                  maxFiles={5}
-                />
-                <p className="mt-2 text-sm text-text-secondary">
-                  Upload logo lama, contoh desain yang disukai, atau referensi lainnya
-                </p>
-              </div>
-
-              <TimelineCalculator
-                selectedServices={formData.selectedServices}
-                urgency={formData.urgency}
-              />
             </div>
           )}
 
-          {/* Step 4: Confirmation */}
-          {currentStep === 4 && (
+          {/* Step 3: Confirmation */}
+          {currentStep === 3 && (
             <div className="space-y-6">
-              <div>
-                <h2 className="text-2xl font-bold text-foreground mb-2">
+              <div className="text-center mb-8">
+                <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                  <CheckCircle size={32} className="text-green-600" />
+                </div>
+                <h2 className="text-3xl font-bold text-gray-900 mb-2">
                   Konfirmasi Pesanan
                 </h2>
-                <p className="text-text-secondary">
+                <p className="text-gray-600">
                   Periksa kembali informasi Anda sebelum mengirim
                 </p>
               </div>
 
               <div className="space-y-4">
-                <div className="bg-muted rounded-lg p-6">
-                  <h3 className="font-semibold text-foreground mb-4 flex items-center">
-                    <Icon name="UserIcon" size={20} className="mr-2 text-primary" />
+                <div className="bg-gradient-to-br from-blue-50 to-indigo-50 rounded-2xl p-6 border-2 border-blue-200">
+                  <h3 className="font-bold text-gray-900 mb-4 flex items-center text-lg">
+                    <User size={24} className="mr-2 text-blue-600" />
                     Informasi Kontak
                   </h3>
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
-                    <div>
-                      <p className="text-text-secondary mb-1">Nama</p>
-                      <p className="font-medium text-foreground">{formData.name}</p>
-                    </div>
-                    <div>
-                      <p className="text-text-secondary mb-1">Email</p>
-                      <p className="font-medium text-foreground">{formData.email}</p>
-                    </div>
-                    <div>
-                      <p className="text-text-secondary mb-1">Telepon</p>
-                      <p className="font-medium text-foreground">{formData.phone}</p>
-                    </div>
-                    <div>
-                      <p className="text-text-secondary mb-1">Bisnis</p>
-                      <p className="font-medium text-foreground">{formData.businessName}</p>
-                    </div>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    {[
+                      { label: 'Nama', value: formData.name },
+                      { label: 'Email', value: formData.email },
+                      { label: 'Telepon', value: formData.phone },
+                      { label: 'Bisnis', value: formData.businessName }
+                    ].map(item => (
+                      <div key={item.label}>
+                        <p className="text-sm text-gray-600 mb-1">{item.label}</p>
+                        <p className="font-semibold text-gray-900">{item.value}</p>
+                      </div>
+                    ))}
                   </div>
                 </div>
 
-                <div className="bg-muted rounded-lg p-6">
-                  <h3 className="font-semibold text-foreground mb-4 flex items-center">
-                    <Icon name="SparklesIcon" size={20} className="mr-2 text-primary" />
+                <div className="bg-gradient-to-br from-purple-50 to-pink-50 rounded-2xl p-6 border-2 border-purple-200">
+                  <h3 className="font-bold text-gray-900 mb-4 flex items-center text-lg">
+                    <Sparkles size={24} className="mr-2 text-purple-600" />
                     Layanan Dipilih
                   </h3>
-                  <div className="space-y-2">
+                  <div className="space-y-3">
                     {services
                       .filter(s => formData.selectedServices.includes(s.id))
                       .map((service) => (
-                        <div key={service.id} className="flex items-center justify-between py-2 border-b border-border last:border-0">
-                          <span className="font-medium text-foreground">{service.name}</span>
-                          <span className="text-sm text-text-secondary">{service.timeline}</span>
+                        <div key={service.id} className="flex items-center justify-between py-3 border-b border-purple-200 last:border-0">
+                          <span className="font-semibold text-gray-900">{service.name}</span>
+                          <span className="text-sm text-gray-600 flex items-center">
+                            <Clock size={14} className="mr-1" />
+                            {service.timeline}
+                          </span>
                         </div>
                       ))}
                   </div>
                 </div>
 
-                <div className="bg-muted rounded-lg p-6">
-                  <h3 className="font-semibold text-foreground mb-4 flex items-center">
-                    <Icon name="DocumentTextIcon" size={20} className="mr-2 text-primary" />
-                    Detail Proyek
+                <div className="bg-gradient-to-br from-green-50 to-emerald-50 rounded-2xl p-6 border-2 border-green-200">
+                  <h3 className="font-bold text-gray-900 mb-4 flex items-center text-lg">
+                    <Info size={24} className="mr-2 text-green-600" />
+                    Deskripsi Proyek
                   </h3>
-                  <div className="space-y-3 text-sm">
-                    <div>
-                      <p className="text-text-secondary mb-1">Urgency</p>
-                      <p className="font-medium text-foreground capitalize">{formData.urgency}</p>
-                    </div>
-                    <div>
-                      <p className="text-text-secondary mb-1">Budget</p>
-                      <p className="font-medium text-foreground">{formData.budget}</p>
-                    </div>
-                    <div>
-                      <p className="text-text-secondary mb-1">Deskripsi</p>
-                      <p className="text-foreground">{formData.projectDescription}</p>
-                    </div>
-                    {formData.referenceFiles.length > 0 && (
-                      <div>
-                        <p className="text-text-secondary mb-1">File Referensi</p>
-                        <p className="font-medium text-foreground">
-                          {formData.referenceFiles.length} file terupload
-                        </p>
-                      </div>
-                    )}
-                  </div>
+                  <p className="text-gray-700 leading-relaxed">{formData.projectDescription}</p>
                 </div>
               </div>
 
-              <div className="bg-accent/10 border border-accent/20 rounded-lg p-6">
+              <div className="bg-blue-50 border-2 border-blue-200 rounded-2xl p-6">
                 <div className="flex items-start space-x-3">
-                  <Icon name="InformationCircleIcon" size={24} className="text-accent flex-shrink-0 mt-0.5" />
+                  <MessageCircle size={28} className="text-blue-600 flex-shrink-0 mt-1" />
                   <div>
-                    <h4 className="font-semibold text-foreground mb-2">
+                    <h4 className="font-bold text-gray-900 mb-2 text-lg">
                       Setelah Mengirim Pesanan
                     </h4>
-                    <p className="text-sm text-text-secondary">
+                    <p className="text-gray-700">
                       Anda akan diarahkan ke WhatsApp untuk melanjutkan diskusi dengan tim kami. Pastikan aplikasi WhatsApp Anda sudah terinstall.
                     </p>
                   </div>
@@ -696,30 +644,30 @@ const OrderFormInteractive = () => {
           )}
 
           {/* Navigation Buttons */}
-          <div className="flex items-center justify-between mt-8 pt-6 border-t border-border">
+          <div className="flex items-center justify-between mt-8 pt-6 border-t-2 border-gray-200">
             {currentStep > 1 && (
               <button
                 onClick={handleBack}
-                className="flex items-center space-x-2 px-6 py-3 text-foreground font-semibold rounded-lg hover:bg-muted transition-colors"
+                className="flex items-center space-x-2 px-6 py-3 text-gray-700 font-semibold rounded-xl hover:bg-gray-100 transition-colors"
               >
-                <Icon name="ArrowLeftIcon" size={20} />
+                <ArrowLeft size={20} />
                 <span>Kembali</span>
               </button>
             )}
 
-            {currentStep < 4 ? (
+            {currentStep < 3 ? (
               <button
                 onClick={handleNext}
-                className="ml-auto flex items-center space-x-2 px-6 py-3 bg-accent text-white font-semibold rounded-lg hover:bg-accent/90 transition-all shadow-md hover:shadow-lg"
+                className="ml-auto flex items-center space-x-2 px-8 py-4 bg-gradient-to-r from-blue-600 to-indigo-600 text-white font-bold rounded-xl hover:from-blue-700 hover:to-indigo-700 transition-all shadow-lg hover:shadow-xl transform hover:scale-105"
               >
                 <span>Lanjutkan</span>
-                <Icon name="ArrowRightIcon" size={20} />
+                <ArrowRight size={20} />
               </button>
             ) : (
               <button
                 onClick={handleSubmit}
                 disabled={isSubmitting}
-                className="ml-auto flex items-center space-x-2 px-8 py-3 bg-primary text-white font-semibold rounded-lg hover:bg-primary/90 transition-all shadow-md hover:shadow-lg disabled:opacity-50 disabled:cursor-not-allowed"
+                className="ml-auto flex items-center space-x-2 px-8 py-4 bg-gradient-to-r from-green-600 to-emerald-600 text-white font-bold rounded-xl hover:from-green-700 hover:to-emerald-700 transition-all shadow-lg hover:shadow-xl disabled:opacity-50 disabled:cursor-not-allowed transform hover:scale-105"
               >
                 {isSubmitting ? (
                   <>
@@ -728,7 +676,7 @@ const OrderFormInteractive = () => {
                   </>
                 ) : (
                   <>
-                    <Icon name="PaperAirplaneIcon" size={20} />
+                    <Send size={20} />
                     <span>Kirim Pesanan</span>
                   </>
                 )}
@@ -738,34 +686,33 @@ const OrderFormInteractive = () => {
         </div>
 
         {/* Trust Signals */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-8">
-          <div className="bg-white rounded-lg p-6 text-center shadow-md">
-            <div className="w-12 h-12 bg-accent/10 rounded-full flex items-center justify-center mx-auto mb-3">
-              <Icon name="ShieldCheckIcon" size={24} className="text-accent" />
-            </div>
-            <h3 className="font-semibold text-foreground mb-2">Data Aman</h3>
-            <p className="text-sm text-text-secondary">
-              Informasi Anda dilindungi dengan enkripsi
-            </p>
-          </div>
-          <div className="bg-white rounded-lg p-6 text-center shadow-md">
-            <div className="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-3">
-              <Icon name="ChatBubbleLeftRightIcon" size={24} className="text-primary" />
-            </div>
-            <h3 className="font-semibold text-foreground mb-2">Respon Cepat</h3>
-            <p className="text-sm text-text-secondary">
-              Tim kami siap membantu dalam 1-2 jam kerja
-            </p>
-          </div>
-          <div className="bg-white rounded-lg p-6 text-center shadow-md">
-            <div className="w-12 h-12 bg-success/10 rounded-full flex items-center justify-center mx-auto mb-3">
-              <Icon name="CheckBadgeIcon" size={24} className="text-success" />
-            </div>
-            <h3 className="font-semibold text-foreground mb-2">Tanpa Komitmen</h3>
-            <p className="text-sm text-text-secondary">
-              Konsultasi gratis tanpa kewajiban
-            </p>
-          </div>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          {[
+            { icon: Shield, color: 'blue', title: 'Data Aman', desc: 'Informasi Anda dilindungi dengan enkripsi' },
+            { icon: MessageCircle, color: 'purple', title: 'Respon Cepat', desc: 'Tim kami siap membantu dalam 1-2 jam kerja' },
+            { icon: BadgeCheck, color: 'green', title: 'Tanpa Komitmen', desc: 'Konsultasi gratis tanpa kewajiban' }
+          ].map((item, idx) => {
+            const Icon = item.icon;
+            const bgColors = {
+              blue: 'bg-blue-100',
+              purple: 'bg-purple-100',
+              green: 'bg-green-100'
+            };
+            const textColors = {
+              blue: 'text-blue-600',
+              purple: 'text-purple-600',
+              green: 'text-green-600'
+            };
+            return (
+              <div key={idx} className="bg-white rounded-2xl p-6 text-center shadow-lg hover:shadow-xl transition-shadow">
+                <div className={`w-14 h-14 ${bgColors[item.color as keyof typeof bgColors]} rounded-full flex items-center justify-center mx-auto mb-4`}>
+                  <Icon size={28} className={textColors[item.color as keyof typeof textColors]} />
+                </div>
+                <h3 className="font-bold text-gray-900 mb-2 text-lg">{item.title}</h3>
+                <p className="text-sm text-gray-600">{item.desc}</p>
+              </div>
+            );
+          })}
         </div>
       </div>
     </div>

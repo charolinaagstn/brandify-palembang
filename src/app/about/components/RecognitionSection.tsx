@@ -20,7 +20,7 @@ export default function RecognitionSection({ recognitions }: RecognitionSectionP
       case 'media':
         return 'bg-secondary/10 text-secondary border-secondary/20';
       case 'community':
-        return 'bg-accent/10 text-accent border-accent/20';
+        return 'bg-secondary/10 text-accent border-accent/20';
       default:
         return 'bg-muted text-foreground border-border';
     }

@@ -17,7 +17,7 @@ const FormProgress = ({ currentStep, totalSteps }: FormProgressProps) => {
         {/* Progress Line */}
         <div className="absolute top-5 left-0 w-full h-1 bg-gray-200 -z-10">
           <div 
-            className="h-full bg-accent transition-all duration-500"
+            className="h-full bg-secondary transition-all duration-500"
             style={{ width: `${((currentStep - 1) / (totalSteps - 1)) * 100}%` }}
           />
         </div>
@@ -28,7 +28,7 @@ const FormProgress = ({ currentStep, totalSteps }: FormProgressProps) => {
             <div
               className={`w-10 h-10 rounded-full flex items-center justify-center font-semibold transition-all duration-300 ${
                 step.number < currentStep
-                  ? 'bg-accent text-white'
+                  ? 'bg-secondary text-white'
                   : step.number === currentStep
                   ? 'bg-primary text-white ring-4 ring-primary/20' :'bg-white border-2 border-gray-300 text-gray-400'
               }`}

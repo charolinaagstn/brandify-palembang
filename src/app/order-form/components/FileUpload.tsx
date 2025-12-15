@@ -61,7 +61,7 @@ const FileUpload = ({ onFilesChange, maxFiles = 5 }: FileUploadProps) => {
         onDrop={handleDrop}
         className={`relative border-2 border-dashed rounded-lg p-8 text-center transition-all duration-300 ${
           dragActive
-            ? 'border-accent bg-accent/5' :'border-border hover:border-accent/50'
+            ? 'border-accent bg-secondary/5' :'border-border hover:border-accent/50'
         }`}
       >
         <input
