@@ -26,6 +26,19 @@ interface Service {
   icon: any;
 }
 
+interface Order {
+  orderId: string;
+  name: string;
+  businessName: string;
+  phone: string;
+  services: string[];
+  total: number;
+  dp: number;
+  remaining: number;
+  status: "waiting_dp" | "in_progress" | "waiting_final_payment" | "completed";
+}
+
+
 const OrderFormInteractive = () => {
   const [isHydrated, setIsHydrated] = useState(false);
   const [currentStep, setCurrentStep] = useState(1);
@@ -80,6 +93,22 @@ const OrderFormInteractive = () => {
       icon: Sparkles
     }
   ];
+
+  const servicePrices: { [key: string]: number } = {
+  "logo-design": 15000,
+  "brand-identity": 15000,
+  "social-media": 25000,
+  "spanduk-banner": 25000
+};
+const totalPrice = formData.selectedServices.reduce(
+  (sum, id) => sum + (servicePrices[id] || 0),
+  0
+);
+
+const dp = totalPrice * 0.5;
+const remaining = totalPrice - dp;
+
+
 
   const validateStep = (step: number): boolean => {
     const newErrors: { [key: string]: string } = {};
@@ -136,48 +165,58 @@ const OrderFormInteractive = () => {
     setErrors(prev => ({ ...prev, services: '' }));
   };
 
-  const handleSubmit = () => {
-    if (!validateStep(2)) return;
+ const handleSubmit = () => {
+  if (!validateStep(2)) return;
+  setIsSubmitting(true);
 
-    setIsSubmitting(true);
+  const orderId = "ORD-" + Date.now();
 
-    setTimeout(() => {
-      setIsSubmitting(false);
-      setShowConfirmation(true);
-      
-      const selectedServiceNames = services
-        .filter(s => formData.selectedServices.includes(s.id))
-        .map(s => s.name)
-        .join(', ');
-
-      const message = `Halo Brandify Palembang!
-
-Saya ingin memesan layanan desain:
-
-📋 *INFORMASI KONTAK*
-Nama: ${formData.name}
-Bisnis: ${formData.businessName}
-Email: charolinaagustin03@gmail.com
-Telepon: 085717904178
-Kontak Preferensi: ${formData.preferredContact === 'whatsapp' ? 'WhatsApp' : formData.preferredContact === 'email' ? 'Email' : 'Telepon'}
-
-🎨 *LAYANAN YANG DIPILIH*
-${selectedServiceNames}
-
-📝 *DESKRIPSI PROYEK*
-${formData.projectDescription}
-
-Terima kasih! Saya menunggu konfirmasi dari tim Brandify.`;
-
-      const whatsappUrl = `https://wa.me/6282375328943?text=${encodeURIComponent(message)}`;
-      
-      setTimeout(() => {
-        if (isHydrated && typeof window !== 'undefined') {
-          window.open(whatsappUrl, '_blank');
-        }
-      }, 2000);
-    }, 1500);
+  const order: Order = {
+    orderId,
+    name: formData.name,
+    businessName: formData.businessName,
+    phone: formData.phone,
+    services: formData.selectedServices,
+    total: totalPrice,
+    dp,
+    remaining,
+    status: "waiting_dp"
   };
+
+  localStorage.setItem("brandify_order", JSON.stringify(order));
+
+  const selectedServiceNames = services
+    .filter(s => formData.selectedServices.includes(s.id))
+    .map(s => s.name)
+    .join(", ");
+
+  // Pesan dibuat dalam format UTF-8 yang aman untuk emoji
+  const message =
+    "Halo Brandify 👋\n\n" +
+    "Saya ingin melakukan pembayaran DP sebesar 50% untuk pesanan desain saya.\n\n" +
+    "📌 Order ID: " + orderId + "\n" +
+    "👤 Nama: " + formData.name + "\n" +
+    "🏢 Bisnis: " + formData.businessName + "\n\n" +
+    "🎨 Layanan:\n" +
+    selectedServiceNames + "\n\n" +
+    "💰 Total: Rp " + totalPrice.toLocaleString() + "\n" +
+    "💳 DP (50%): Rp " + dp.toLocaleString() + "\n" +
+    "📥 Sisa: Rp " + remaining.toLocaleString() + "\n\n" +
+    "Mohon kirimkan detail nomor pembayaran ya 🙏\n" +
+    "Terima kasih, saya siap melanjutkan prosesnya ✨";
+
+  // Encode agar emoji & karakter tidak rusak di WhatsApp
+  const encodedMessage = encodeURIComponent(message);
+
+  const whatsappUrl = "https://wa.me/6285789110406?text=" + encodedMessage;
+
+  setTimeout(() => {
+    setIsSubmitting(false);
+    setShowConfirmation(true);
+    window.open(whatsappUrl, "_blank");
+  }, 1500);
+};
+
 
   // Progress Bar Component
   const ProgressBar = ({ current, total }: { current: number; total: number }) => (
@@ -453,35 +492,21 @@ Terima kasih! Saya menunggu konfirmasi dari tim Brandify.`;
                 </div>
               </div>
 
-              <div>
-                <label className="block text-sm font-semibold text-gray-700 mb-3">
-                  Metode Kontak Preferensi
-                </label>
-                <div className="flex flex-wrap gap-3">
-                  {[
-                    { value: 'whatsapp', label: 'WhatsApp', icon: MessageCircle },
-                    { value: 'email', label: 'Email', icon: Mail },
-                    { value: 'phone', label: 'Telepon', icon: Phone }
-                  ].map((method) => {
-                    const Icon = method.icon;
-                    return (
-                      <button
-                        key={method.value}
-                        type="button"
-                        onClick={() => setFormData({ ...formData, preferredContact: method.value })}
-                        className={`flex items-center space-x-2 px-6 py-3 rounded-xl border-2 transition-all font-medium ${
-                          formData.preferredContact === method.value
-                            ? 'border-blue-500 bg-blue-50 text-blue-700 shadow-md'
-                            : 'border-gray-200 hover:border-blue-300 text-gray-700'
-                        }`}
-                      >
-                        <Icon size={20} />
-                        <span>{method.label}</span>
-                      </button>
-                    );
-                  })}
-                </div>
-              </div>
+<div className="bg-gradient-to-r from-blue-50 to-indigo-50 border-2 border-blue-200 rounded-2xl p-5 flex items-start space-x-4 shadow-sm">
+  <div className="w-12 h-12 bg-blue-600 rounded-xl flex items-center justify-center flex-shrink-0">
+    <MessageCircle size={26} className="text-white" />
+  </div>
+  <div>
+    <h4 className="font-bold text-blue-800 mb-1 text-base">
+      Konsultasi via WhatsApp
+    </h4>
+    <p className="text-sm text-blue-700 leading-relaxed">
+      Semua komunikasi dan update pesanan akan dilakukan melalui <strong>WhatsApp</strong> agar Anda mendapatkan respon lebih cepat, praktis, dan real-time dari tim kami.
+    </p>
+  </div>
+</div>
+
+
             </div>
           )}
 
@@ -617,6 +642,18 @@ Terima kasih! Saya menunggu konfirmasi dari tim Brandify.`;
                       ))}
                   </div>
                 </div>
+
+                <div className="bg-gradient-to-br from-yellow-50 to-orange-50 rounded-2xl p-6 border-2 border-yellow-300">
+  <h3 className="font-bold text-gray-900 mb-4 flex items-center text-lg">
+    💳 Rincian Pembayaran
+  </h3>
+  <div className="space-y-2 text-gray-800">
+    <p>Total Harga: <strong>Rp {totalPrice.toLocaleString()}</strong></p>
+    <p>DP (50%): <strong className="text-blue-600">Rp {dp.toLocaleString()}</strong></p>
+    <p>Sisa Pembayaran: <strong className="text-green-600">Rp {remaining.toLocaleString()}</strong></p>
+  </div>
+</div>
+
 
                 <div className="bg-gradient-to-br from-green-50 to-emerald-50 rounded-2xl p-6 border-2 border-green-200">
                   <h3 className="font-bold text-gray-900 mb-4 flex items-center text-lg">
