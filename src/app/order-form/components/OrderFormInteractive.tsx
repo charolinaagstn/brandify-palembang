@@ -587,55 +587,55 @@ const remaining = totalPrice - dp;
             </div>
           )}
 
-          {/* Step 3: Confirmation */}
+{/* Step 3: Confirmation */}
           {currentStep === 3 && (
-            <div className="space-y-6">
-              <div className="text-center mb-8">
-                <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                  <CheckCircle size={32} className="text-green-600" />
+            <div className="space-y-4">
+              <div className="text-center mb-6">
+                <div className="w-14 h-14 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-3">
+                  <CheckCircle size={28} className="text-green-600" />
                 </div>
-                <h2 className="text-3xl font-bold text-gray-900 mb-2">
+                <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-2">
                   Konfirmasi Pesanan
                 </h2>
-                <p className="text-gray-600">
+                <p className="text-sm md:text-base text-gray-600">
                   Periksa kembali informasi Anda sebelum mengirim
                 </p>
               </div>
 
-              <div className="space-y-4">
-                <div className="bg-gradient-to-br from-blue-50 to-indigo-50 rounded-2xl p-6 border-2 border-blue-200">
-                  <h3 className="font-bold text-gray-900 mb-4 flex items-center text-lg">
-                    <User size={24} className="mr-2 text-blue-600" />
+              <div className="space-y-3">
+                <div className="bg-gradient-to-br from-blue-50 to-indigo-50 rounded-xl p-4 border-2 border-blue-200">
+                  <h3 className="font-bold text-gray-900 mb-3 flex items-center text-base">
+                    <User size={20} className="mr-2 text-blue-600 flex-shrink-0" />
                     Informasi Kontak
                   </h3>
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                     {[
                       { label: 'Nama', value: formData.name },
                       { label: 'Email', value: formData.email },
                       { label: 'Telepon', value: formData.phone },
                       { label: 'Bisnis', value: formData.businessName }
                     ].map(item => (
-                      <div key={item.label}>
-                        <p className="text-sm text-gray-600 mb-1">{item.label}</p>
-                        <p className="font-semibold text-gray-900">{item.value}</p>
+                      <div key={item.label} className="break-words">
+                        <p className="text-xs text-gray-600 mb-1">{item.label}</p>
+                        <p className="font-semibold text-sm text-gray-900 break-all">{item.value}</p>
                       </div>
                     ))}
                   </div>
                 </div>
 
-                <div className="bg-gradient-to-br from-purple-50 to-pink-50 rounded-2xl p-6 border-2 border-purple-200">
-                  <h3 className="font-bold text-gray-900 mb-4 flex items-center text-lg">
-                    <Sparkles size={24} className="mr-2 text-purple-600" />
+                <div className="bg-gradient-to-br from-purple-50 to-pink-50 rounded-xl p-4 border-2 border-purple-200">
+                  <h3 className="font-bold text-gray-900 mb-3 flex items-center text-base">
+                    <Sparkles size={20} className="mr-2 text-purple-600 flex-shrink-0" />
                     Layanan Dipilih
                   </h3>
-                  <div className="space-y-3">
+                  <div className="space-y-2">
                     {services
                       .filter(s => formData.selectedServices.includes(s.id))
                       .map((service) => (
-                        <div key={service.id} className="flex items-center justify-between py-3 border-b border-purple-200 last:border-0">
-                          <span className="font-semibold text-gray-900">{service.name}</span>
-                          <span className="text-sm text-gray-600 flex items-center">
-                            <Clock size={14} className="mr-1" />
+                        <div key={service.id} className="flex items-start justify-between py-2 border-b border-purple-200 last:border-0 gap-2">
+                          <span className="font-semibold text-sm text-gray-900 break-words flex-1">{service.name}</span>
+                          <span className="text-xs text-gray-600 flex items-center flex-shrink-0">
+                            <Clock size={12} className="mr-1" />
                             {service.timeline}
                           </span>
                         </div>
@@ -643,35 +643,34 @@ const remaining = totalPrice - dp;
                   </div>
                 </div>
 
-                <div className="bg-gradient-to-br from-yellow-50 to-orange-50 rounded-2xl p-6 border-2 border-yellow-300">
-  <h3 className="font-bold text-gray-900 mb-4 flex items-center text-lg">
-    💳 Rincian Pembayaran
-  </h3>
-  <div className="space-y-2 text-gray-800">
-    <p>Total Harga: <strong>Rp {totalPrice.toLocaleString()}</strong></p>
-    <p>DP (50%): <strong className="text-blue-600">Rp {dp.toLocaleString()}</strong></p>
-    <p>Sisa Pembayaran: <strong className="text-green-600">Rp {remaining.toLocaleString()}</strong></p>
-  </div>
-</div>
+                <div className="bg-gradient-to-br from-yellow-50 to-orange-50 rounded-xl p-4 border-2 border-yellow-300">
+                  <h3 className="font-bold text-gray-900 mb-3 flex items-center text-base">
+                    💳 Rincian Pembayaran
+                  </h3>
+                  <div className="space-y-1.5 text-sm text-gray-800">
+                    <p className="break-words">Total Harga: <strong className="whitespace-nowrap">Rp {totalPrice.toLocaleString()}</strong></p>
+                    <p className="break-words">DP (50%): <strong className="text-blue-600 whitespace-nowrap">Rp {dp.toLocaleString()}</strong></p>
+                    <p className="break-words">Sisa Pembayaran: <strong className="text-green-600 whitespace-nowrap">Rp {remaining.toLocaleString()}</strong></p>
+                  </div>
+                </div>
 
-
-                <div className="bg-gradient-to-br from-green-50 to-emerald-50 rounded-2xl p-6 border-2 border-green-200">
-                  <h3 className="font-bold text-gray-900 mb-4 flex items-center text-lg">
-                    <Info size={24} className="mr-2 text-green-600" />
+                <div className="bg-gradient-to-br from-green-50 to-emerald-50 rounded-xl p-4 border-2 border-green-200">
+                  <h3 className="font-bold text-gray-900 mb-3 flex items-center text-base">
+                    <Info size={20} className="mr-2 text-green-600 flex-shrink-0" />
                     Deskripsi Proyek
                   </h3>
-                  <p className="text-gray-700 leading-relaxed">{formData.projectDescription}</p>
+                  <p className="text-sm text-gray-700 leading-relaxed break-words">{formData.projectDescription}</p>
                 </div>
               </div>
 
-              <div className="bg-blue-50 border-2 border-blue-200 rounded-2xl p-6">
-                <div className="flex items-start space-x-3">
-                  <MessageCircle size={28} className="text-blue-600 flex-shrink-0 mt-1" />
+              <div className="bg-blue-50 border-2 border-blue-200 rounded-xl p-4">
+                <div className="flex items-start space-x-2">
+                  <MessageCircle size={22} className="text-blue-600 flex-shrink-0 mt-0.5" />
                   <div>
-                    <h4 className="font-bold text-gray-900 mb-2 text-lg">
+                    <h4 className="font-bold text-gray-900 mb-1.5 text-sm md:text-base">
                       Setelah Mengirim Pesanan
                     </h4>
-                    <p className="text-gray-700">
+                    <p className="text-xs md:text-sm text-gray-700 leading-relaxed">
                       Anda akan diarahkan ke WhatsApp untuk melanjutkan diskusi dengan tim kami. Pastikan aplikasi WhatsApp Anda sudah terinstall.
                     </p>
                   </div>
