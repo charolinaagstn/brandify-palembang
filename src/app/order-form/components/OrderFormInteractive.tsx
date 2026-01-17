@@ -1,10 +1,27 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { 
-  User, Mail, Phone, Building2, Sparkles, Palette, Image,
-  Clock, Zap, Rocket, Check, Shield, MessageCircle, BadgeCheck,
-  ArrowLeft, ArrowRight, Send, AlertCircle, Info, CheckCircle
+import {
+  User,
+  Mail,
+  Phone,
+  Building2,
+  Sparkles,
+  Palette,
+  Image,
+  Clock,
+  Zap,
+  Rocket,
+  Check,
+  Shield,
+  MessageCircle,
+  BadgeCheck,
+  ArrowLeft,
+  ArrowRight,
+  Send,
+  AlertCircle,
+  Info,
+  CheckCircle,
 } from 'lucide-react';
 
 interface FormData {
@@ -15,6 +32,7 @@ interface FormData {
   selectedServices: string[];
   projectDescription: string;
   preferredContact: string;
+  paymentMethod: string;
 }
 
 interface Service {
@@ -35,9 +53,8 @@ interface Order {
   total: number;
   dp: number;
   remaining: number;
-  status: "waiting_dp" | "in_progress" | "waiting_final_payment" | "completed";
+  status: 'waiting_dp' | 'in_progress' | 'waiting_final_payment' | 'completed';
 }
-
 
 const OrderFormInteractive = () => {
   const [isHydrated, setIsHydrated] = useState(false);
@@ -49,7 +66,8 @@ const OrderFormInteractive = () => {
     businessName: '',
     selectedServices: [],
     projectDescription: '',
-    preferredContact: 'whatsapp'
+    preferredContact: 'whatsapp',
+    paymentMethod: '',
   });
   const [errors, setErrors] = useState<{ [key: string]: string }>({});
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -66,7 +84,7 @@ const OrderFormInteractive = () => {
       description: 'Logo profesional yang mencerminkan identitas bisnis Anda',
       price: 'Mulai dari Rp 15.000',
       timeline: '1-2 hari',
-      icon: Sparkles
+      icon: Sparkles,
     },
     {
       id: 'brand-identity',
@@ -74,7 +92,7 @@ const OrderFormInteractive = () => {
       description: 'Sebarkan informasi UMKM anda dengan poster dan material cetak lainnya',
       price: 'Mulai dari Rp 15.000',
       timeline: '1-2 hari',
-      icon: Palette
+      icon: Palette,
     },
     {
       id: 'social-media',
@@ -82,7 +100,7 @@ const OrderFormInteractive = () => {
       description: 'Template konten untuk Instagram, Facebook, dan platform lainnya',
       price: 'Mulai dari Rp 25.000',
       timeline: '1-3 hari',
-      icon: Image
+      icon: Image,
     },
     {
       id: 'spanduk-banner',
@@ -90,25 +108,23 @@ const OrderFormInteractive = () => {
       description: 'Layanan desain spanduk yang cocok serta komplit untuk bisnis anda',
       price: 'Mulai dari Rp 25.000',
       timeline: '1-3 hari',
-      icon: Sparkles
-    }
+      icon: Sparkles,
+    },
   ];
 
   const servicePrices: { [key: string]: number } = {
-  "logo-design": 15000,
-  "brand-identity": 15000,
-  "social-media": 25000,
-  "spanduk-banner": 25000
-};
-const totalPrice = formData.selectedServices.reduce(
-  (sum, id) => sum + (servicePrices[id] || 0),
-  0
-);
+    'logo-design': 15000,
+    'brand-identity': 15000,
+    'social-media': 25000,
+    'spanduk-banner': 25000,
+  };
+  const totalPrice = formData.selectedServices.reduce(
+    (sum, id) => sum + (servicePrices[id] || 0),
+    0
+  );
 
-const dp = totalPrice * 0.5;
-const remaining = totalPrice - dp;
-
-
+  const dp = totalPrice * 0.5;
+  const remaining = totalPrice - dp;
 
   const validateStep = (step: number): boolean => {
     const newErrors: { [key: string]: string } = {};
@@ -137,6 +153,9 @@ const remaining = totalPrice - dp;
       } else if (formData.projectDescription.trim().length < 30) {
         newErrors.projectDescription = 'Deskripsi minimal 30 karakter';
       }
+      if (!formData.paymentMethod) {
+        newErrors.paymentMethod = 'Pilih metode pembayaran';
+      }
     }
 
     setErrors(newErrors);
@@ -156,67 +175,91 @@ const remaining = totalPrice - dp;
   };
 
   const handleServiceToggle = (serviceId: string) => {
-    setFormData(prev => ({
+    setFormData((prev) => ({
       ...prev,
       selectedServices: prev.selectedServices.includes(serviceId)
-        ? prev.selectedServices.filter(id => id !== serviceId)
-        : [...prev.selectedServices, serviceId]
+        ? prev.selectedServices.filter((id) => id !== serviceId)
+        : [...prev.selectedServices, serviceId],
     }));
-    setErrors(prev => ({ ...prev, services: '' }));
+    setErrors((prev) => ({ ...prev, services: '' }));
   };
 
- const handleSubmit = () => {
-  if (!validateStep(2)) return;
-  setIsSubmitting(true);
+  const handleSubmit = () => {
+    if (!validateStep(2)) return;
+    setIsSubmitting(true);
 
-  const orderId = "ORD-" + Date.now();
+    const orderId = 'ORD-' + Date.now();
 
-  const order: Order = {
-    orderId,
-    name: formData.name,
-    businessName: formData.businessName,
-    phone: formData.phone,
-    services: formData.selectedServices,
-    total: totalPrice,
-    dp,
-    remaining,
-    status: "waiting_dp"
+    const order: Order = {
+      orderId,
+      name: formData.name,
+      businessName: formData.businessName,
+      phone: formData.phone,
+      services: formData.selectedServices,
+      total: totalPrice,
+      dp,
+      remaining,
+      status: 'waiting_dp',
+    };
+
+    const selectedServiceNames = services
+      .filter((s) => formData.selectedServices.includes(s.id))
+      .map((s) => s.name)
+      .join(', ');
+
+    const paymentMethods: { [key: string]: { name: string; account: string } } = {
+      dana: { name: 'DANA', account: '0857-8911-0406' },
+      bri: { name: 'BRI', account: '1234-5678-9012-3456' },
+      shopee: { name: 'ShopeePay', account: '0857-8911-0406' },
+    };
+
+    const selectedPayment = paymentMethods[formData.paymentMethod];
+
+    // Pesan dibuat dalam format UTF-8 yang aman untuk emoji
+    const message =
+      'Halo Brandify 👋\n\n' +
+      'Saya ingin melakukan pembayaran DP sebesar *50%* untuk pesanan desain.\n\n' +
+      '📌 Order ID: ' +
+      orderId +
+      '\n' +
+      '👤 Nama: ' +
+      formData.name +
+      '\n' +
+      '🏢 Bisnis: ' +
+      formData.businessName +
+      '\n\n' +
+      '🎨 Layanan:\n' +
+      selectedServiceNames +
+      '\n\n' +
+      '💰 Total: Rp ' +
+      totalPrice.toLocaleString() +
+      '\n' +
+      '💳 DP (50%): Rp ' +
+      dp.toLocaleString() +
+      '\n' +
+      '📥 Sisa: Rp ' +
+      remaining.toLocaleString() +
+      '\n\n' +
+      '💳 Metode Pembayaran:\n' +
+      selectedPayment.name +
+      '\n' +
+      '📱 Nomor/Rekening: ' +
+      selectedPayment.account +
+      '\n\n' +
+      'Mohon kirimkan detail pembayaran ya 🙏\n' +
+      'Terima kasih ✨';
+
+    // Encode agar emoji & karakter tidak rusak di WhatsApp
+    const encodedMessage = encodeURIComponent(message);
+
+    const whatsappUrl = 'https://wa.me/6285789110406?text=' + encodedMessage;
+
+    setTimeout(() => {
+      setIsSubmitting(false);
+      setShowConfirmation(true);
+      window.open(whatsappUrl, '_blank');
+    }, 1500);
   };
-
-  localStorage.setItem("brandify_order", JSON.stringify(order));
-
-  const selectedServiceNames = services
-    .filter(s => formData.selectedServices.includes(s.id))
-    .map(s => s.name)
-    .join(", ");
-
-  // Pesan dibuat dalam format UTF-8 yang aman untuk emoji
-  const message =
-    "Halo Brandify 👋\n\n" +
-    "Saya ingin melakukan pembayaran DP sebesar 50% untuk pesanan desain saya.\n\n" +
-    "📌 Order ID: " + orderId + "\n" +
-    "👤 Nama: " + formData.name + "\n" +
-    "🏢 Bisnis: " + formData.businessName + "\n\n" +
-    "🎨 Layanan:\n" +
-    selectedServiceNames + "\n\n" +
-    "💰 Total: Rp " + totalPrice.toLocaleString() + "\n" +
-    "💳 DP (50%): Rp " + dp.toLocaleString() + "\n" +
-    "📥 Sisa: Rp " + remaining.toLocaleString() + "\n\n" +
-    "Mohon kirimkan detail nomor pembayaran ya 🙏\n" +
-    "Terima kasih, saya siap melanjutkan prosesnya ✨";
-
-  // Encode agar emoji & karakter tidak rusak di WhatsApp
-  const encodedMessage = encodeURIComponent(message);
-
-  const whatsappUrl = "https://wa.me/6285789110406?text=" + encodedMessage;
-
-  setTimeout(() => {
-    setIsSubmitting(false);
-    setShowConfirmation(true);
-    window.open(whatsappUrl, "_blank");
-  }, 1500);
-};
-
 
   // Progress Bar Component
   const ProgressBar = ({ current, total }: { current: number; total: number }) => (
@@ -226,26 +269,35 @@ const remaining = totalPrice - dp;
           const stepNum = idx + 1;
           const isActive = stepNum === current;
           const isCompleted = stepNum < current;
-          
+
           return (
             <div key={stepNum} className="flex items-center flex-1">
               <div className="flex flex-col items-center flex-1">
-                <div className={`w-12 h-12 rounded-full flex items-center justify-center font-bold text-lg transition-all ${
-                  isActive ? 'bg-blue-600 text-white scale-110 shadow-lg' :
-                  isCompleted ? 'bg-green-500 text-white' : 'bg-gray-200 text-gray-500'
-                }`}>
+                <div
+                  className={`w-12 h-12 rounded-full flex items-center justify-center font-bold text-lg transition-all ${
+                    isActive
+                      ? 'bg-blue-600 text-white scale-110 shadow-lg'
+                      : isCompleted
+                        ? 'bg-green-500 text-white'
+                        : 'bg-gray-200 text-gray-500'
+                  }`}
+                >
                   {isCompleted ? <Check size={24} /> : stepNum}
                 </div>
-                <span className={`text-sm mt-2 font-medium ${
-                  isActive ? 'text-blue-600' : isCompleted ? 'text-green-600' : 'text-gray-400'
-                }`}>
+                <span
+                  className={`text-sm mt-2 font-medium ${
+                    isActive ? 'text-blue-600' : isCompleted ? 'text-green-600' : 'text-gray-400'
+                  }`}
+                >
                   {stepNum === 1 ? 'Info Dasar' : stepNum === 2 ? 'Layanan & Detail' : 'Konfirmasi'}
                 </span>
               </div>
               {stepNum < total && (
-                <div className={`h-1 flex-1 mx-2 rounded transition-all ${
-                  stepNum < current ? 'bg-green-500' : 'bg-gray-200'
-                }`} />
+                <div
+                  className={`h-1 flex-1 mx-2 rounded transition-all ${
+                    stepNum < current ? 'bg-green-500' : 'bg-gray-200'
+                  }`}
+                />
               )}
             </div>
           );
@@ -262,8 +314,8 @@ const remaining = totalPrice - dp;
         type="button"
         onClick={onSelect}
         className={`p-6 rounded-xl border-2 transition-all text-left ${
-          isSelected 
-            ? 'border-blue-500 bg-blue-50 shadow-lg scale-105' 
+          isSelected
+            ? 'border-blue-500 bg-blue-50 shadow-lg scale-105'
             : 'border-gray-200 hover:border-blue-300 hover:shadow-md'
         }`}
       >
@@ -308,13 +360,12 @@ const remaining = totalPrice - dp;
           <div className="w-24 h-24 bg-green-500 rounded-full flex items-center justify-center mx-auto mb-6 animate-bounce">
             <CheckCircle size={48} className="text-white" />
           </div>
-          <h1 className="text-4xl font-bold text-gray-900 mb-4">
-            Pesanan Berhasil Dikirim! 🎉
-          </h1>
+          <h1 className="text-4xl font-bold text-gray-900 mb-4">Pesanan Berhasil Dikirim! 🎉</h1>
           <p className="text-gray-600 mb-8 text-lg">
-            Terima kasih <span className="font-semibold text-blue-600">{formData.name}</span>! Kami akan segera menghubungi Anda melalui WhatsApp untuk membahas detail proyek.
+            Terima kasih <span className="font-semibold text-blue-600">{formData.name}</span>! Kami
+            akan segera menghubungi Anda melalui WhatsApp untuk membahas detail proyek.
           </p>
-          
+
           <div className="bg-blue-50 rounded-xl p-6 mb-8 text-left">
             <h3 className="font-bold text-gray-900 mb-4 flex items-center">
               <Info className="mr-2 text-blue-600" size={24} />
@@ -324,8 +375,8 @@ const remaining = totalPrice - dp;
               {[
                 { num: 1, text: 'Tim kami akan menghubungi Anda dalam 1-2 jam kerja' },
                 { num: 2, text: 'Diskusi detail proyek dan konfirmasi timeline' },
-                { num: 3, text: 'Pembayaran dan mulai pengerjaan proyek' }
-              ].map(step => (
+                { num: 3, text: 'Pembayaran dan mulai pengerjaan proyek' },
+              ].map((step) => (
                 <div key={step.num} className="flex items-start">
                   <div className="w-8 h-8 bg-blue-600 rounded-full flex items-center justify-center flex-shrink-0 mr-3">
                     <span className="text-white text-sm font-bold">{step.num}</span>
@@ -342,8 +393,14 @@ const remaining = totalPrice - dp;
                 setShowConfirmation(false);
                 setCurrentStep(1);
                 setFormData({
-                  name: '', email: '', phone: '', businessName: '',
-                  selectedServices: [], projectDescription: '', preferredContact: 'whatsapp'
+                  name: '',
+                  email: '',
+                  phone: '',
+                  businessName: '',
+                  selectedServices: [],
+                  projectDescription: '',
+                  preferredContact: 'whatsapp',
+                  paymentMethod: '',
                 });
               }}
               className="px-8 py-3 bg-gray-200 text-gray-700 font-semibold rounded-lg hover:bg-gray-300 transition-colors"
@@ -367,9 +424,7 @@ const remaining = totalPrice - dp;
       <div className="max-w-4xl mx-auto">
         {/* Header */}
         <div className="text-center mb-8">
-          <h1 className="text-5xl font-bold text-gray-900 mb-4">
-            Formulir Pemesanan ✨
-          </h1>
+          <h1 className="text-5xl font-bold text-gray-900 mb-4">Formulir Pemesanan ✨</h1>
           <p className="text-gray-600 text-xl">
             Mulai transformasi brand Anda dalam 3 langkah mudah
           </p>
@@ -386,9 +441,7 @@ const remaining = totalPrice - dp;
                 <div className="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
                   <User size={32} className="text-blue-600" />
                 </div>
-                <h2 className="text-3xl font-bold text-gray-900 mb-2">
-                  Informasi Dasar
-                </h2>
+                <h2 className="text-3xl font-bold text-gray-900 mb-2">Informasi Dasar</h2>
                 <p className="text-gray-600">
                   Berikan informasi kontak Anda agar kami dapat menghubungi Anda
                 </p>
@@ -492,21 +545,21 @@ const remaining = totalPrice - dp;
                 </div>
               </div>
 
-<div className="bg-gradient-to-r from-blue-50 to-indigo-50 border-2 border-blue-200 rounded-2xl p-5 flex items-start space-x-4 shadow-sm">
-  <div className="w-12 h-12 bg-blue-600 rounded-xl flex items-center justify-center flex-shrink-0">
-    <MessageCircle size={26} className="text-white" />
-  </div>
-  <div>
-    <h4 className="font-bold text-blue-800 mb-1 text-base">
-      Konsultasi via WhatsApp
-    </h4>
-    <p className="text-sm text-blue-700 leading-relaxed">
-      Semua komunikasi dan update pesanan akan dilakukan melalui <strong>WhatsApp</strong> agar Anda mendapatkan respon lebih cepat, praktis, dan real-time dari tim kami.
-    </p>
-  </div>
-</div>
-
-
+              <div className="bg-gradient-to-r from-blue-50 to-indigo-50 border-2 border-blue-200 rounded-2xl p-5 flex items-start space-x-4 shadow-sm">
+                <div className="w-12 h-12 bg-blue-600 rounded-xl flex items-center justify-center flex-shrink-0">
+                  <MessageCircle size={26} className="text-white" />
+                </div>
+                <div>
+                  <h4 className="font-bold text-blue-800 mb-1 text-base">
+                    Konsultasi via WhatsApp
+                  </h4>
+                  <p className="text-sm text-blue-700 leading-relaxed">
+                    Semua komunikasi dan update pesanan akan dilakukan melalui{' '}
+                    <strong>WhatsApp</strong> agar Anda mendapatkan respon lebih cepat, praktis, dan
+                    real-time dari tim kami.
+                  </p>
+                </div>
+              </div>
             </div>
           )}
 
@@ -517,12 +570,8 @@ const remaining = totalPrice - dp;
                 <div className="w-16 h-16 bg-purple-100 rounded-full flex items-center justify-center mx-auto mb-4">
                   <Sparkles size={32} className="text-purple-600" />
                 </div>
-                <h2 className="text-3xl font-bold text-gray-900 mb-2">
-                  Layanan & Detail Proyek
-                </h2>
-                <p className="text-gray-600">
-                  Pilih layanan dan ceritakan tentang proyek Anda
-                </p>
+                <h2 className="text-3xl font-bold text-gray-900 mb-2">Layanan & Detail Proyek</h2>
+                <p className="text-gray-600">Pilih layanan dan ceritakan tentang proyek Anda</p>
               </div>
 
               {errors.services && (
@@ -533,7 +582,9 @@ const remaining = totalPrice - dp;
               )}
 
               <div>
-                <h3 className="text-xl font-bold text-gray-900 mb-4">Pilih Layanan yang Anda Butuhkan</h3>
+                <h3 className="text-xl font-bold text-gray-900 mb-4">
+                  Pilih Layanan yang Anda Butuhkan
+                </h3>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   {services.map((service) => (
                     <ServiceCard
@@ -584,10 +635,93 @@ const remaining = totalPrice - dp;
                   )}
                 </div>
               </div>
+
+              {/* Payment Method Selection */}
+              <div>
+                <h3 className="text-xl font-bold text-gray-900 mb-4">
+                  Pilih Metode Pembayaran <span className="text-red-500">*</span>
+                </h3>
+
+                {errors.paymentMethod && (
+                  <div className="mb-4 bg-red-50 border-2 border-red-200 rounded-xl p-4 flex items-center">
+                    <AlertCircle size={20} className="text-red-600 mr-2" />
+                    <span className="text-red-700 font-medium">{errors.paymentMethod}</span>
+                  </div>
+                )}
+
+                <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+                  {[
+                    {
+                      id: 'dana',
+                      name: 'DANA',
+                      logo: '/hero-home/danaPayment.jpeg',
+                      color: 'from-blue-500 to-cyan-400',
+                    },
+                    {
+                      id: 'bri',
+                      name: 'BRI',
+                      logo: '/hero-home/bri.jpeg',
+                      color: 'from-blue-600 to-blue-400',
+                    },
+                    {
+                      id: 'shopee',
+                      name: 'ShopeePay',
+                      logo: '/hero-home/shopePayment.jpeg',
+                      color: 'from-orange-500 to-red-400',
+                    },
+                  ].map((method) => (
+                    <button
+                      key={method.id}
+                      type="button"
+                      onClick={() => {
+                        setFormData({ ...formData, paymentMethod: method.id });
+                        setErrors({ ...errors, paymentMethod: '' });
+                      }}
+                      className={`relative p-6 rounded-2xl border-3 transition-all transform hover:scale-105 ${
+                        formData.paymentMethod === method.id
+                          ? 'border-blue-600 bg-blue-50 shadow-2xl scale-105 ring-4 ring-blue-200'
+                          : 'border-gray-200 bg-white hover:border-blue-300 hover:shadow-lg'
+                      }`}
+                    >
+                      {formData.paymentMethod === method.id && (
+                        <div className="absolute -top-2 -right-2 bg-blue-600 text-white rounded-full p-1.5 shadow-lg">
+                          <Check size={18} />
+                        </div>
+                      )}
+
+                      <div
+                        className={`w-full h-20 bg-gradient-to-br ${method.color} rounded-xl flex items-center justify-center mb-3 shadow-md overflow-hidden`}
+                      >
+                        <img
+                          src={method.logo}
+                          alt={method.name}
+                          className="w-full h-full object-contain p-3"
+                          onError={(e) => {
+                            // Fallback jika gambar tidak ditemukan
+                            e.currentTarget.style.display = 'none';
+                            e.currentTarget.parentElement!.innerHTML = `<span class="text-white font-bold text-lg">${method.name}</span>`;
+                          }}
+                        />
+                      </div>
+
+                      <p className="font-bold text-gray-900 text-center">{method.name}</p>
+                    </button>
+                  ))}
+                </div>
+
+                {formData.paymentMethod && (
+                  <div className="mt-4 bg-green-50 border-2 border-green-200 rounded-xl p-4">
+                    <p className="text-green-800 font-medium flex items-center">
+                      <Check className="mr-2" size={20} />
+                      Metode pembayaran {formData.paymentMethod.toUpperCase()} dipilih
+                    </p>
+                  </div>
+                )}
+              </div>
             </div>
           )}
 
-{/* Step 3: Confirmation */}
+          {/* Step 3: Confirmation */}
           {currentStep === 3 && (
             <div className="space-y-4">
               <div className="text-center mb-6">
@@ -613,11 +747,13 @@ const remaining = totalPrice - dp;
                       { label: 'Nama', value: formData.name },
                       { label: 'Email', value: formData.email },
                       { label: 'Telepon', value: formData.phone },
-                      { label: 'Bisnis', value: formData.businessName }
-                    ].map(item => (
+                      { label: 'Bisnis', value: formData.businessName },
+                    ].map((item) => (
                       <div key={item.label} className="break-words">
                         <p className="text-xs text-gray-600 mb-1">{item.label}</p>
-                        <p className="font-semibold text-sm text-gray-900 break-all">{item.value}</p>
+                        <p className="font-semibold text-sm text-gray-900 break-all">
+                          {item.value}
+                        </p>
                       </div>
                     ))}
                   </div>
@@ -630,10 +766,15 @@ const remaining = totalPrice - dp;
                   </h3>
                   <div className="space-y-2">
                     {services
-                      .filter(s => formData.selectedServices.includes(s.id))
+                      .filter((s) => formData.selectedServices.includes(s.id))
                       .map((service) => (
-                        <div key={service.id} className="flex items-start justify-between py-2 border-b border-purple-200 last:border-0 gap-2">
-                          <span className="font-semibold text-sm text-gray-900 break-words flex-1">{service.name}</span>
+                        <div
+                          key={service.id}
+                          className="flex items-start justify-between py-2 border-b border-purple-200 last:border-0 gap-2"
+                        >
+                          <span className="font-semibold text-sm text-gray-900 break-words flex-1">
+                            {service.name}
+                          </span>
                           <span className="text-xs text-gray-600 flex items-center flex-shrink-0">
                             <Clock size={12} className="mr-1" />
                             {service.timeline}
@@ -648,9 +789,85 @@ const remaining = totalPrice - dp;
                     💳 Rincian Pembayaran
                   </h3>
                   <div className="space-y-1.5 text-sm text-gray-800">
-                    <p className="break-words">Total Harga: <strong className="whitespace-nowrap">Rp {totalPrice.toLocaleString()}</strong></p>
-                    <p className="break-words">DP (50%): <strong className="text-blue-600 whitespace-nowrap">Rp {dp.toLocaleString()}</strong></p>
-                    <p className="break-words">Sisa Pembayaran: <strong className="text-green-600 whitespace-nowrap">Rp {remaining.toLocaleString()}</strong></p>
+                    <p className="break-words">
+                      Total Harga:{' '}
+                      <strong className="whitespace-nowrap">
+                        Rp {totalPrice.toLocaleString()}
+                      </strong>
+                    </p>
+                    <p className="break-words">
+                      DP (50%):{' '}
+                      <strong className="text-blue-600 whitespace-nowrap">
+                        Rp {dp.toLocaleString()}
+                      </strong>
+                    </p>
+                    <p className="break-words">
+                      Sisa Pembayaran:{' '}
+                      <strong className="text-green-600 whitespace-nowrap">
+                        Rp {remaining.toLocaleString()}
+                      </strong>
+                    </p>
+                  </div>
+
+                  <div className="mt-4 pt-4 border-t-2 border-yellow-200">
+                    <p className="text-sm text-gray-700 mb-2 font-semibold">Metode Pembayaran:</p>
+                    <div className="flex items-center space-x-3">
+                      {(() => {
+                        const methods: {
+                          [key: string]: { name: string; logo: string; color: string };
+                        } = {
+                          dana: {
+                            name: 'DANA',
+                            logo: '/hero-home/danaPayment.jpg',
+                            color: 'from-blue-500 to-cyan-400',
+                          },
+                          bri: {
+                            name: 'BRI',
+                            logo: '/hero-home/bri.png',
+                            color: 'from-blue-600 to-blue-400',
+                          },
+                          bsi: {
+                            name: 'BSI',
+                            logo: '/hero-home/bsiPayment.png',
+                            color: 'from-green-600 to-emerald-400',
+                          },
+                          shopee: {
+                            name: 'ShopeePay',
+                            logo: '/hero-home/shopePayment.png',
+                            color: 'from-orange-500 to-red-400',
+                          },
+                          gopay: {
+                            name: 'GoPay',
+                            logo: '/hero-home/gopay.png',
+                            color: 'from-green-500 to-teal-400',
+                          },
+                        };
+                        const selected = methods[formData.paymentMethod];
+                        return (
+                          <>
+                            <div
+                              className={`w-16 h-16 bg-gradient-to-br ${selected.color} rounded-lg flex items-center justify-center shadow-md overflow-hidden`}
+                            >
+                              <img
+                                src={selected.logo}
+                                alt={selected.name}
+                                className="w-full h-full object-contain p-2"
+                                onError={(e) => {
+                                  e.currentTarget.style.display = 'none';
+                                  e.currentTarget.parentElement!.innerHTML = `<span class="text-white font-bold text-sm">${selected.name}</span>`;
+                                }}
+                              />
+                            </div>
+                            <div>
+                              <p className="font-bold text-gray-900">{selected.name}</p>
+                              <p className="text-xs text-gray-600">
+                                Detail akan dikirim via WhatsApp
+                              </p>
+                            </div>
+                          </>
+                        );
+                      })()}
+                    </div>
                   </div>
                 </div>
 
@@ -659,7 +876,9 @@ const remaining = totalPrice - dp;
                     <Info size={20} className="mr-2 text-green-600 flex-shrink-0" />
                     Deskripsi Proyek
                   </h3>
-                  <p className="text-sm text-gray-700 leading-relaxed break-words">{formData.projectDescription}</p>
+                  <p className="text-sm text-gray-700 leading-relaxed break-words">
+                    {formData.projectDescription}
+                  </p>
                 </div>
               </div>
 
@@ -671,7 +890,8 @@ const remaining = totalPrice - dp;
                       Setelah Mengirim Pesanan
                     </h4>
                     <p className="text-xs md:text-sm text-gray-700 leading-relaxed">
-                      Anda akan diarahkan ke WhatsApp untuk melanjutkan diskusi dengan tim kami. Pastikan aplikasi WhatsApp Anda sudah terinstall.
+                      Anda akan diarahkan ke WhatsApp untuk melanjutkan diskusi dengan tim kami.
+                      Pastikan aplikasi WhatsApp Anda sudah terinstall.
                     </p>
                   </div>
                 </div>
@@ -724,24 +944,44 @@ const remaining = totalPrice - dp;
         {/* Trust Signals */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           {[
-            { icon: Shield, color: 'blue', title: 'Data Aman', desc: 'Informasi Anda dilindungi dengan enkripsi' },
-            { icon: MessageCircle, color: 'purple', title: 'Respon Cepat', desc: 'Tim kami siap membantu dalam 1-2 jam kerja' },
-            { icon: BadgeCheck, color: 'green', title: 'Tanpa Komitmen', desc: 'Konsultasi gratis tanpa kewajiban' }
+            {
+              icon: Shield,
+              color: 'blue',
+              title: 'Data Aman',
+              desc: 'Informasi Anda dilindungi dengan enkripsi',
+            },
+            {
+              icon: MessageCircle,
+              color: 'purple',
+              title: 'Respon Cepat',
+              desc: 'Tim kami siap membantu dalam 1-2 jam kerja',
+            },
+            {
+              icon: BadgeCheck,
+              color: 'green',
+              title: 'Tanpa Komitmen',
+              desc: 'Konsultasi gratis tanpa kewajiban',
+            },
           ].map((item, idx) => {
             const Icon = item.icon;
             const bgColors = {
               blue: 'bg-blue-100',
               purple: 'bg-purple-100',
-              green: 'bg-green-100'
+              green: 'bg-green-100',
             };
             const textColors = {
               blue: 'text-blue-600',
               purple: 'text-purple-600',
-              green: 'text-green-600'
+              green: 'text-green-600',
             };
             return (
-              <div key={idx} className="bg-white rounded-2xl p-6 text-center shadow-lg hover:shadow-xl transition-shadow">
-                <div className={`w-14 h-14 ${bgColors[item.color as keyof typeof bgColors]} rounded-full flex items-center justify-center mx-auto mb-4`}>
+              <div
+                key={idx}
+                className="bg-white rounded-2xl p-6 text-center shadow-lg hover:shadow-xl transition-shadow"
+              >
+                <div
+                  className={`w-14 h-14 ${bgColors[item.color as keyof typeof bgColors]} rounded-full flex items-center justify-center mx-auto mb-4`}
+                >
                   <Icon size={28} className={textColors[item.color as keyof typeof textColors]} />
                 </div>
                 <h3 className="font-bold text-gray-900 mb-2 text-lg">{item.title}</h3>
